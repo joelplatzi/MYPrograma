@@ -32,3 +32,13 @@ void __fastcall TForm3::Button1Click(TObject *Sender)
    Edit1->Text=x;
 }
 //---------------------------------------------------------------------------
+byte sumar_digitos(Cardinal x){
+byte s; 
+if(x==0){
+    s=0;
+ }else{
+    byte d=x%10;
+	s=sumar_digitos(x/10);
+	s=s+d;
+ }	
+}	
