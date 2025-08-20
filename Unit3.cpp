@@ -40,5 +40,12 @@ if(x==0){
     byte d=x%10;
 	s=sumar_digitos(x/10);
 	s=s+d;
- }	
-}	
+ }
+ return s;
+}
+void __fastcall TForm3::Button2Click(TObject *Sender)
+{
+	 Edit2->Text=sumar_digitos(Edit1->Text.ToInt());
+}
+//---------------------------------------------------------------------------
+

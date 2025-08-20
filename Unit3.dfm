@@ -28,6 +28,21 @@ object Form3: TForm3
     Width = 121
     Height = 21
     TabOrder = 1
-    Text = 'Edit1'
+  end
+  object Button2: TButton
+    Left = 8
+    Top = 47
+    Width = 75
+    Height = 25
+    Caption = 'Button2'
+    TabOrder = 2
+    OnClick = Button2Click
+  end
+  object Edit2: TEdit
+    Left = 89
+    Top = 47
+    Width = 121
+    Height = 21
+    TabOrder = 3
   end
 end
