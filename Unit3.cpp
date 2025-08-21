@@ -34,8 +34,8 @@ void __fastcall TForm3::Button1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 byte sumar_digitos(Cardinal x){
 byte s; 
-if(x==0){
-    s=0;
+if(x<10){
+	s=x;
  }else{
     byte d=x%10;
 	s=sumar_digitos(x/10);
@@ -46,6 +46,47 @@ if(x==0){
 void __fastcall TForm3::Button2Click(TObject *Sender)
 {
 	 Edit2->Text=sumar_digitos(Edit1->Text.ToInt());
+}
+//---------------------------------------------------------------------------
+//funcion que devuelva el mayor de los digitos de un numero
+byte mayor_digito(Cardinal x){
+ byte m;
+  if(x<10){
+	m=x;
+  }else{
+	 byte d=x%10;
+	 m=mayor_digito(x/10);
+	 if(d>m)
+	   m=d;
+  }
+  return m;
+}
+
+void __fastcall TForm3::Button3Click(TObject *Sender)
+{
+   Edit2->Text=mayor_digito(Edit1->Text.ToInt());
+}
+//---------------------------------------------------------------------------
+//algoritmo para eliminar el digito z de un numero
+//eje x=42872981 , z=2 -> x=487981
+void eliminarZ(Cardinal &x,byte z){
+  if(x<10){
+	 if(x==z)
+		x=0;
+  }else{
+	 byte d=x%10;
+	 x=x/10;
+	 eliminarZ(x,z);
+	 if(d!=z)
+		x=x*10+d;
+  }
+}
+void __fastcall TForm3::Button4Click(TObject *Sender)
+{
+   Cardinal x=Edit1->Text.ToInt();
+   byte z=Edit2->Text.ToInt();
+   eliminarZ(x,z);
+   Edit1->Text=x;
 }
 //---------------------------------------------------------------------------
 
