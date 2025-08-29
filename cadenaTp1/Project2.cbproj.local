@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/08/28 09:43:08.000.633,=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2PCH1.h</Transaction>
+    <Transaction>2025/08/28 09:43:09.000.086,=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
+    <Transaction>2025/08/28 09:47:29.000.270,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.h=D:\programas\Ing Shriley 2025 Program2\cadenas2025\Cadenas.h</Transaction>
+    <Transaction>2025/08/28 09:47:29.000.270,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.cpp=D:\programas\Ing Shriley 2025 Program2\cadenas2025\Cadenas.cpp</Transaction>
+    <Transaction>2025/08/28 09:47:29.000.270,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.dfm=D:\programas\Ing Shriley 2025 Program2\cadenas2025\Cadenas.dfm</Transaction>
+    <Transaction>2025/08/28 09:47:45.000.345,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2PCH1.h=D:\programas\Ing Shriley 2025 Program2\cadenas2025\PCadena.h</Transaction>
+    <Transaction>2025/08/28 09:47:47.000.672,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.cbproj=D:\programas\Ing Shriley 2025 Program2\cadenas2025\Project2.cbproj</Transaction>
+  </Transactions>
+</BorlandProject>
