@@ -27,9 +27,11 @@ __published:	// IDE-managed Components
 	TMenuItem *Vector1;
 	TMenuItem *SumaElementosV1;
 	TMenuItem *VectorAcadenaInversa1;
+	TMenuItem *BusquedaBinaria1;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall SumaElementosV1Click(TObject *Sender);
 	void __fastcall VectorAcadenaInversa1Click(TObject *Sender);
+	void __fastcall BusquedaBinaria1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm3(TComponent* Owner);

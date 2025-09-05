@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
-    <Transaction>2025/09/03 19:25:23.973,=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2PCH1.h</Transaction>
-    <Transaction>2025/09/03 19:25:24.238,=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
-    <Transaction>2025/09/03 21:03:01.181,D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\vectores.cpp=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
-    <Transaction>2025/09/03 21:03:01.181,D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\vectores.h=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.h</Transaction>
-    <Transaction>2025/09/03 21:03:01.181,D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\vectores.dfm=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.dfm</Transaction>
-    <Transaction>2025/09/03 21:03:10.632,D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\vector.h=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2PCH1.h</Transaction>
-    <Transaction>2025/09/03 21:03:13.507,D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\Project2.cbproj=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.cbproj</Transaction>
+	<Transactions>
+    <Transaction>2025/09/03 19:25:23.000.973,=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2PCH1.h</Transaction>
+    <Transaction>2025/09/03 19:25:24.000.238,=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
+    <Transaction>2025/09/03 21:03:01.000.181,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.h=D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\vectores.h</Transaction>
+    <Transaction>2025/09/03 21:03:01.000.181,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.cpp=D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\vectores.cpp</Transaction>
+    <Transaction>2025/09/03 21:03:01.000.181,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.dfm=D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\vectores.dfm</Transaction>
+    <Transaction>2025/09/03 21:03:10.000.632,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2PCH1.h=D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\vector.h</Transaction>
+    <Transaction>2025/09/03 21:03:13.000.507,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.cbproj=D:\programas\Ing Shriley 2025 Program2\MYPrograma\vectores\Project2.cbproj</Transaction>
   </Transactions>
 </BorlandProject>

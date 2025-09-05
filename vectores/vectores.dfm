@@ -78,7 +78,7 @@ object Form3: TForm3
     Left = 207
     Top = 190
     Width = 121
-    Height = 25
+    Height = 21
     TabOrder = 2
   end
   object Button2: TButton
@@ -123,6 +123,10 @@ object Form3: TForm3
       object VectorAcadenaInversa1: TMenuItem
         Caption = 'VectorAcadenaInversa'
         OnClick = VectorAcadenaInversa1Click
+      end
+      object BusquedaBinaria1: TMenuItem
+        Caption = 'BusquedaBinaria'
+        OnClick = BusquedaBinaria1Click
       end
     end
   end

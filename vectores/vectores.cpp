@@ -62,4 +62,46 @@ void __fastcall TForm3::VectorAcadenaInversa1Click(TObject *Sender)
    Edit3->Text=vector_cadena_inverso(StringGrid1,Edit1->Text.ToInt());
 }
 //---------------------------------------------------------------------------
+//Algoritmo de busqueda binaria de un vector utilizando la hipotesis k=n/2
+//solucion busqueda binaria->vector tiene que estar ordenado
+bool BusBin(TStringGrid *v,byte a,byte b,Word ele){
+ bool e; byte n=b-a+1;
+ if(n==0){
+	e=false;
+ }else if(n==1){
+	if(v->Cells[a][0].ToInt()==ele)
+	   e=true;
+	else
+	   e=false;
+ }else{
+	 byte c=(a+b)/2;
+	 Word x=v->Cells[c][0].ToInt();
+	 if(x==ele){
+		e=true;
+	 }else if(ele<x){
+		e=BusBin(v,a,c-1,ele);
+	 }else{
+		 e=BusBin(v,c+1,b,ele);
+     }
+ }
+ return e;
+}
+
+void __fastcall TForm3::BusquedaBinaria1Click(TObject *Sender)
+{
+  bool e;
+  if(BusBin(StringGrid1,0,StringGrid1->ColCount-1,Edit2->Text.ToInt()))
+	  Edit3->Text="Si esta";
+  else
+	 Edit3->Text="No esta";
+}
+//---------------------------------------------------------------------------
+//ordenamiento de BubleSort utilizando la hipotesis k=n-1;
+//Metodo de burbuja v[5,3,1,6,7,2,4,8]
+void burbuja(TStringGrid *v,byte n){
+byte b=n-1; byte a=0;
+ if(n>1){
+
+ }
+}
 
