@@ -128,6 +128,14 @@ object Form3: TForm3
         Caption = 'BusquedaBinaria'
         OnClick = BusquedaBinaria1Click
       end
+      object CargarPalabraVector1: TMenuItem
+        Caption = 'CargarPalabraVector'
+        OnClick = CargarPalabraVector1Click
+      end
+      object Frecuenciadigitosvector1: TMenuItem
+        Caption = 'Frecuencia_digitos_vector'
+        OnClick = Frecuenciadigitosvector1Click
+      end
     end
   end
 end

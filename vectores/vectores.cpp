@@ -95,13 +95,147 @@ void __fastcall TForm3::BusquedaBinaria1Click(TObject *Sender)
   else
 	 Edit3->Text="No esta";
 }
+bool EsAbecedario(char x){
+ AnsiString alfa="qwertyuiopasdfghjklmnñzxcvbQWERTYUIOPASDFGHJKLMNÑZXCVBáéíóúÁÉÍÓÚ";
+ return alfa.Pos(x)>0;
+}
 //---------------------------------------------------------------------------
-//ordenamiento de BubleSort utilizando la hipotesis k=n-1;
-//Metodo de burbuja v[5,3,1,6,7,2,4,8]
-void burbuja(TStringGrid *v,byte n){
-byte b=n-1; byte a=0;
- if(n>1){
+/*cargar unicamente con las palabras de un string
+entrada->
+x="hola123como,están.esta;mañana##%", v[], n;
+Salida->
+v["hola","como","estan","esta","mañana"
+*/
+AnsiString ultima_pal(AnsiString x){
+ AnsiString c;
+ if(x==""){
+   c="";
+ }else{
+	 byte p=x.Length();
+	 char z=x[p];
+	 x.Delete(p,1);
+	 if(EsAbecedario(z)){
+		 c=AnsiString(z);
+		 if(x!="" && EsAbecedario(x[x.Length()])){
+			 c=ultima_pal(x)+c;
+		 }
+	 }else{
+		 c=ultima_pal(x);
+     }
+ }
+ return c;
+}
+AnsiString ultima_palabra_cadena(AnsiString x){
+AnsiString pal;
+ if(x.Length()!=0){
+	char z=x[x.Length()];
+	x.Delete(x.Length(),1);
+	if(!EsAbecedario(z)){
+	   pal=ultima_palabra_cadena(x);
+	}else if(x!="" && EsAbecedario(x[x.Length()])){
+		  pal=ultima_palabra_cadena(x);
+		  pal=pal+AnsiString(z);
+	}else{
+		pal=pal+AnsiString(z);
+    }
+ }
+return pal;
+}
+void cargar_palabra_vector(TStringGrid *v,byte &n,AnsiString x){
+  if(x==""){
+	 n=0;
+  }else{
+	  AnsiString pal=ultima_pal(x);
+	  if(pal==""){
+		 n=0;
+	  }else{
+		byte pos=x.Pos(pal);
+		x.Delete(pos,x.Length());
+		cargar_palabra_vector(v,n,x);
+		v->Cells[n][0]=pal;
+		n++;
+	  }
+  }
+}
+//cadena mejorada copia todo mejor q la version1
+void cargar_palabra_vector02(TStringGrid *v,byte &n,AnsiString x){
+ AnsiString pal;
+ if(x==""){
+	n=0;
+ }else{
+	 char z=x[x.Length()];
+	 x.Delete(x.Length(),1);
+	 cargar_palabra_vector02(v,n,x);
+	 if(EsAbecedario(z)){
+		if((x=="") || (x!="" && (!EsAbecedario(x[x.Length()])))){
+		   v->Cells[n][0]="";
+		   n++;
+		}
+		v->Cells[n-1][0]=v->Cells[n-1][0]+AnsiString(z);
+	 }
 
  }
 }
+
+//De una cadena obtener los numeros en el vector
+//hola123como64estan2025 = -> v[123,64,2025]
+void cargar_numeros_vector(TStringGrid *v,byte &n,AnsiString x){
+ if(x==""){
+	n=0;
+ }else{
+	 char z=x[x.Length()];
+	 x.Delete(x.Length(),1);
+	 cargar_numeros_vector(v,n,x);
+	 if(isdigit(z)){
+		if((x=="")|| (x!="" && !isdigit(x[x.Length()]))){
+		   v->Cells[n][0]="";
+		   n++;
+		}
+		v->Cells[n-1][0]=v->Cells[n-1][0]+AnsiString(z);
+	 }
+ }
+
+}
+
+void __fastcall TForm3::CargarPalabraVector1Click(TObject *Sender)
+{
+   //Edit3->Text=ultima_palabra_cadena(Edit2->Text);
+	AnsiString cad=Edit2->Text;
+	byte n;
+	//cargar_palabra_vector02(StringGrid1,n,cad);
+	cargar_numeros_vector(StringGrid1,n,cad);
+	StringGrid1->ColCount=n;
+}
+//---------------------------------------------------------------------------
+//calcular la frecuencia de cada digito
+//ej x=655616 -> v[0,1,0,0,0,2,3,0,0,0]
+byte cantidad_digitos_repetidos(Cardinal x,byte ele){
+ byte c;
+ if(x==0){
+	c=0;
+ }else{
+	byte d=x%10;
+	c=cantidad_digitos_repetidos(x/10,ele);
+	if(d==ele){
+	   c++;
+	}
+ }
+ return c;
+}
+ //n=9 x=655463132
+void frecuencia_digitos_repetidosV(TStringGrid *v,byte n,Cardinal x){
+ if(n!=0){
+	byte cant=cantidad_digitos_repetidos(x,n-1);
+	v->Cells[n-1][0]=cant;
+	frecuencia_digitos_repetidosV(v,n-1,x);
+
+ }
+}
+void __fastcall TForm3::Frecuenciadigitosvector1Click(TObject *Sender)
+{
+  // Edit2->Text=cantidad_digitos_repetidos(Edit1->Text.ToInt(),Edit3->Text.ToInt());
+   StringGrid1->ColCount=Edit1->Text.ToInt();
+   frecuencia_digitos_repetidosV(StringGrid1,StringGrid1->ColCount,Edit2->Text.ToInt());
+}
+//---------------------------------------------------------------------------
 

@@ -14,21 +14,21 @@ object Form3: TForm3
   PixelsPerInch = 96
   TextHeight = 13
   object Edit1: TEdit
-    Left = 112
+    Left = 168
     Top = 24
     Width = 121
     Height = 21
     TabOrder = 0
   end
   object Edit2: TEdit
-    Left = 112
+    Left = 168
     Top = 51
     Width = 121
     Height = 21
     TabOrder = 1
   end
   object Edit3: TEdit
-    Left = 112
+    Left = 168
     Top = 78
     Width = 121
     Height = 21
@@ -37,7 +37,7 @@ object Form3: TForm3
   object Button1: TButton
     Left = 8
     Top = 22
-    Width = 89
+    Width = 105
     Height = 25
     Caption = 'cantidadVocales'
     TabOrder = 3
@@ -46,7 +46,7 @@ object Form3: TForm3
   object Button2: TButton
     Left = 8
     Top = 53
-    Width = 89
+    Width = 105
     Height = 25
     Caption = 'InvertirCadena'
     TabOrder = 4
@@ -55,25 +55,46 @@ object Form3: TForm3
   object Button3: TButton
     Left = 8
     Top = 84
-    Width = 89
+    Width = 105
     Height = 25
-    Caption = 'Button3'
+    Caption = 'palabraMas_Larga'
     TabOrder = 5
+    OnClick = Button3Click
   end
   object Button4: TButton
     Left = 8
     Top = 115
-    Width = 89
+    Width = 121
     Height = 25
-    Caption = 'Button4'
+    Caption = 'Eliminar_primera_letra'
     TabOrder = 6
+    OnClick = Button4Click
   end
   object Button5: TButton
     Left = 8
     Top = 146
-    Width = 89
+    Width = 121
     Height = 25
-    Caption = 'Button5'
+    Caption = 'EliminarPrimerNumero'
     TabOrder = 7
+    OnClick = Button5Click
+  end
+  object Button6: TButton
+    Left = 8
+    Top = 177
+    Width = 121
+    Height = 25
+    Caption = 'obtenerNumerosCadena'
+    TabOrder = 8
+    OnClick = Button6Click
+  end
+  object Button7: TButton
+    Left = 8
+    Top = 208
+    Width = 121
+    Height = 25
+    Caption = 'EliminarPrimeraPalabra'
+    TabOrder = 9
+    OnClick = Button7Click
   end
 end

@@ -112,3 +112,198 @@ void __fastcall TForm3::Button2Click(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
+//palabra mas larga
+bool caracter(char v){
+AnsiString simbolo=" #$%&?¡*-+_";
+return simbolo.Pos(v)>0;
+}
+//ej (Esto es una prueba mas)-> prueba
+AnsiString cadena_mas_larga(AnsiString x){
+//x=x.Trim(); trim() elimina los espacios principio y final
+AnsiString pal,may;
+ if(x.Length()==0)
+	may="";
+ else{
+	 byte z=x.LastDelimiter(' ');
+	 if(z!=0){
+		pal=x.SubString(z+1,x.Length());
+		x.Delete(z,x.Length());
+		may=cadena_mas_larga(x);
+	 }else{
+		pal=x.SubString(z+1,x.Length());
+		x.Delete(z+1,x.Length());
+		may=cadena_mas_larga(x);
+	 }
+	 //if(may.Length()<pal.Length())
+	 if(may.Length()<pal.Length())
+        may=pal;
+ }
+return may;
+}
+
+bool EsAbecedario(char v){
+AnsiString alfabeto="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM";
+return alfabeto.Pos(v)>0;
+}
+
+AnsiString cadena_mas_larga02(AnsiString x,AnsiString &pal){
+AnsiString may;
+//AnsiString pal="";
+if(x.Length()==0){
+   may="";
+}else{
+   char z=x[1];
+   x.Delete(1,1);
+   if(!EsAbecedario(z)){
+
+	   pal=cadena_mas_larga02(x,pal);
+	   pal="";
+
+   }else if(x!="" and EsAbecedario(z)){
+
+		pal=cadena_mas_larga02(x,pal);
+		pal=pal+AnsiString(z);
+   }else{
+
+	   pal=cadena_mas_larga02(x,pal);
+       pal=pal+AnsiString(z);
+   }
+
+   if(may.Length()< pal.Length())
+	  may=pal;
+}
+
+return may;
+}
+void __fastcall TForm3::Button3Click(TObject *Sender)
+{
+  AnsiString pal="";
+  Edit2->Text=cadena_mas_larga02(Edit1->Text,pal);
+}
+//---------------------------------------------------------------------------
+//Escribir un proceso para eliminar la primera letra de cada palabra
+//ej.x="Esta es una prueba" -> x="sta s na rueba as"
+void eliminar_primera_letra(AnsiString &x,bool b){
+byte longitud=x.Length();
+ if(x.Length()==0){
+	x="";
+ }else{
+	char z=x[1];
+	x.Delete(1,1);
+	if(EsAbecedario(z)and b==true){
+	   b=false;
+	   eliminar_primera_letra(x,b);
+
+	}else if(EsAbecedario(z)and b==false){
+			  eliminar_primera_letra(x,b);
+			  x=AnsiString(z)+x;
+	}else{
+		b=true;
+		eliminar_primera_letra(x,b);
+        x=AnsiString(z)+x;
+    }
+ }
+}
+void eliminar_primera_letra02(AnsiString &x){
+ if(x.Length()==1){
+  x="";
+ }else{
+   char z=x[x.Length()];
+   x.Delete(x.Length(),1);
+   byte c=x.Length();
+   if(EsAbecedario(z) and x[x.Length()]!=' ' ){
+	  eliminar_primera_letra02(x);
+	  x=x+AnsiString(z);
+   }else if(EsAbecedario(z)){
+	   eliminar_primera_letra02(x);
+   }else{
+       eliminar_primera_letra02(x);
+	   x=x+AnsiString(z);
+   }
+ }
+}
+void __fastcall TForm3::Button4Click(TObject *Sender)
+{
+  AnsiString x=Edit1->Text;
+
+ // bool b=true;
+  //eliminar_primera_letra(x,b);
+  eliminar_primera_letra02(x);
+  Edit2->Text=x;
+}
+//---------------------------------------------------------------------------
+
+bool EsDigito(char d){
+  return d>='0' && d<='9';
+}
+//EliminarPrimerNumero de una cadena
+void eliminar_primer_numero(AnsiString &x){
+ if(x.Length()!=0){
+	 char z=x[1];
+	 x.Delete(1,1);
+	 if(!EsDigito(z)){
+		eliminar_primer_numero(x);
+		x=AnsiString(z)+x ;
+	 }else {
+		if(x!="" && EsDigito(x[1])){
+           eliminar_primer_numero(x);
+		}
+	 }
+ }
+}
+
+
+
+
+void __fastcall TForm3::Button5Click(TObject *Sender)
+{
+  AnsiString x=Edit1->Text;
+  eliminar_primer_numero(x);
+  Edit2->Text=x;
+}
+//---------------------------------------------------------------------------
+//Escribir una funcion strtoInt q devuelva el numero contenido en una cadena.sino
+//contine el numero debera devolver 0. ej.("hola23como45")->2345
+Cardinal obtener_numero_cadena(AnsiString x){
+Cardinal numero;
+  if(x.Length()==0){
+	 numero=0;
+  }else{
+	  char z=x[x.Length()];
+	  x.Delete(x.Length(),1);
+	  if(!EsDigito(z)){
+		 numero=obtener_numero_cadena(x);
+	  }else{
+		  numero=obtener_numero_cadena(x);
+		  numero=numero*10+(z-48);
+	  }
+  }
+ return numero;
+}
+void __fastcall TForm3::Button6Click(TObject *Sender)
+{
+	Edit2->Text=obtener_numero_cadena(Edit1->Text);
+}
+//---------------------------------------------------------------------------
+//proceso para eliminar la primera palabra
+void eliminar_primera_palabra(AnsiString &x){
+ x=x.Trim();
+ if(x.Length()>1){
+	char z=x[1];
+	x.Delete(1,1);
+	if(!EsAbecedario(z)){
+	   eliminar_primera_palabra(x);
+	}else if(x!="" && EsAbecedario(x[1])){
+	     eliminar_primera_palabra(x);
+	}
+ }
+}
+
+void __fastcall TForm3::Button7Click(TObject *Sender)
+{
+  AnsiString cad=Edit1->Text;
+  eliminar_primera_palabra(cad);
+  Edit2->Text=cad;
+}
+//---------------------------------------------------------------------------
+

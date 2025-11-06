@@ -1,0 +1,47 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit3.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm3 *Form3;
+//---------------------------------------------------------------------------
+__fastcall TForm3::TForm3(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+ /*
+ 1   2  3  4  5
+ 6   7  8  9 10
+ 11 12 13 14 15
+ 16 17 18 19 20
+
+ */
+void cargar_columnas(TStringGrid *m,byte ca,byte cb,byte &v){
+ byte c=ca-cb+1;
+ if(c<=m->ColCount){
+	cargar_columnas(m,ca+1,cb,v);
+	m->Cells[ca][cb]=v;
+	v++;
+
+ }
+}
+void cargar_filas(TStringGrid *m,byte fa,byte fb,byte &v){
+ byte f=fb-fa+1;
+  if(f>0){
+	 cargar_filas(m,fa,fb-1,v);
+	 cargar_columnas(m,fa,fb,v);
+  }
+}
+void __fastcall TForm3::cargarmatriz1Click(TObject *Sender)
+{
+   byte v=1;
+   StringGrid1->RowCount=Edit1->Text.ToInt();
+	StringGrid1->ColCount=Edit2->Text.ToInt();
+   cargar_filas(StringGrid1,0,StringGrid1->RowCount,v);
+}
+//---------------------------------------------------------------------------
