@@ -320,8 +320,8 @@ AnsiString get_ultima_palabra(AnsiString nom){
 
 	 while(!pf.eof()){
 		 // pal="";
-		  x=pf.get();
-		  while(!pf.eof() && x!='\n'){   //fin de linea
+		  x=pf.get(); //75holo_mundo27
+		  while(!pf.eof() && x!=10){   //fin de linea
 			 if(EsPalabra(x) ){
 				pal="";
 				 while(EsPalabra(x)){
@@ -351,4 +351,212 @@ void __fastcall TForm3::Button9Click(TObject *Sender)
 	 Edit2->Text=get_ultima_palabra(OpenTextFileDialog1->FileName);
   }
 }
+void MayusMinus(char lin[]){
+  Word i,n,p;   bool sw=false;
+  AnsiString may="QWERTYUIOPASDFGHJKL—ZXCVBNM¡…Õ”⁄";
+  AnsiString min="qwertyuiopasdfghjklÒzxcvbnm·ÈÌÛ˙";
+  n=strlen(lin); //para saber la longitud
+  for(i=0; i<n; i++){
+	 if(EsPalabra(lin[i])){
+		if(sw){ //otras letras
+		   p=may.Pos(lin[i]);
+		   if(p>0){
+			   lin[i]=min[p];
+		   }
+		}else{ //primer letra
+			p=min.Pos(lin[i]);
+			if(p>0){
+			   lin[i]=may[p];
+			}
+			sw=true;
+		}
+	 }
+  }
+}
+/*Modifica el contenido de un archivo de texto de forma que la primer
+letra de cada linea este en mausculas y el resto en minusculas
+*/
+void ActualizarMayMin(AnsiString nom){
+ AnsiString linea;  char lin[501]; Word i,n;
+ fstream pf(nom.c_str());
+ ofstream pf2("temporal.tmp");
+ if(!pf.fail()){
+	while(!pf.eof()){
+	   pf.getline(lin,500);
+	  // if(!pf.eof()){
+		   MayusMinus(lin);
+		   n=strlen(lin);
+		   for(i=0; i<n; i++){
+			  pf2.put(lin[i]);
+		   }
+		   if(!pf.eof())
+		     pf2.put(10);  //eol =fin de linea
+	   //}
+	}
+   pf.close();
+   pf2.close();
+   remove(nom.c_str());
+   rename("temporal.tmp",nom.c_str());
+ }
+}
+void __fastcall TForm3::Button10Click(TObject *Sender)
+{
+   if(OpenTextFileDialog1->Execute()){
+	  Edit1->Text=OpenTextFileDialog1->FileName;
+	  ActualizarMayMin(OpenTextFileDialog1->FileName);
+   }
+}
+//---------------------------------------------------------------------------
+/*
+Modifica un archivo de forma que cada linea este justificada ala izq
+  -   aqui hay          -aqui hay
+  -otra pueba           -otra prueba
+  -  con             -> -con
+  -     texto           -texto
+*/
+void actualizar_linea1(AnsiString nom){
+  AnsiString linea; char lin[501]; Word i,n,p;
+  fstream pf(nom.c_str());
+  ofstream pf2("temporal.tmp");
+  if(!pf.fail()){
+	 while(!pf.eof()){
+		  pf.getline(lin,500);
+		  linea=lin;
+		  linea=linea.TrimLeft(); //elimina espacios de la izquierda
+		  strcpy(lin,linea.c_str()); //metodo copi
+		  //MayusMinus(lin);
+		  n=strlen(lin);
+		  for(i=0; i<n; i++){
+			  pf2.put(lin[i]);
+		  }
+		  if(!pf.eof()){
+			 pf2.put(10);
+		  }
+	 }
+	 pf.close();
+	 pf2.close();
+	 remove(nom.c_str());//elimina el archivo de entrada
+     rename("temporal.tmp",nom.c_str());
+  }
+}
+
+void __fastcall TForm3::Button11Click(TObject *Sender)
+{
+   if(OpenTextFileDialog1->Execute()){
+	   Edit1->Text=OpenTextFileDialog1->FileName;
+       actualizar_linea1(OpenTextFileDialog1->FileName);
+   }
+}
+//---------------------------------------------------------------------------
+//algoritmo para encontrar una palabra
+void SearchAndReplace(AnsiString name,AnsiString search,AnsiString replace){
+ char x;
+ byte i; byte n=search.Length();
+ AnsiString s;
+ AnsiString nameTmp="temporal.tmp";
+ ifstream fi(name.c_str());
+ ofstream fo(nameTmp.c_str());
+ if(!fi.eof()){
+   while(!fi.eof()){
+	  x=fi.get();
+	  if(x==search[1]){
+		 s="";
+		 i=1;
+		 while(i<=n && !fi.eof() && x==search[i]){
+			 s=s+x;
+			 x=fi.get();
+			 i++;
+		 }
+		 if(i>n){ //se encontro es identico
+			fo<< (replace+x);
+		 }else{ //no se encontro
+			 fo<< (s+x);
+         }
+	  }else{
+		  if(!fi.eof())
+			fo.put(x);
+      }
+   }
+   fi.close();
+   fo.close();
+   remove(name.c_str());
+   rename(nameTmp.c_str(),name.c_str());
+ }
+}
+
+void practico1(AnsiString name,AnsiString search,AnsiString replace){
+ AnsiString s; byte i; byte n=search.Length();
+ char x;
+ AnsiString nameTmp="temporal.tmp";
+ fstream f(name.c_str());
+ ofstream fo(nameTmp.c_str());
+ if(!f.fail()){
+   while(!f.eof()){
+	  x=f.get();
+	  if(x==search[1]){
+		 s="";
+		 i=1;
+		  while(i<=n && !f.eof() && x==search[i]){
+			 s=s+x;
+			 x=f.get();
+			 i++;
+		  }
+		  if(i>n){ //lo encontro
+			 for(Word j=1; j<=replace.Length(); j++){
+				 fo.put(replace[j]);
+			 }
+			 if(!f.eof())
+				fo.put(x);
+		  }else{ //no lo encontro
+			  for(Word j=1; j<=s.Length(); j++){
+				  fo.put(s[j]);
+			  }
+			  if(!f.eof())
+				 fo.put(x);
+		  }
+	  }else{
+		  fo.put(x);
+      }
+   }
+   f.close();
+   fo.close();
+ }
+}
+Cardinal SearchAndReplace_Cont(AnsiString nom,AnsiString search){
+ Cardinal c=0; char x;  byte i;
+ Word n=search.Length();
+ fstream f(nom.c_str());
+ //ofstream fo(search.c_str());
+ if(!f.fail()){
+	while(!f.eof()){
+		 x=f.get();
+		 if(x==search[1]){
+			i=1;
+			while(i<=n && !f.eof() && x==search[i]){
+			   x=f.get();
+			   i++;
+			}
+			if(i>n){ //lo encontro
+			   c++;
+			}
+		 }
+	}
+
+	f.close();
+   //	fo.close();
+ }
+ return c;
+}
+
+void __fastcall TForm3::Button12Click(TObject *Sender)
+{
+  AnsiString search=Edit1->Text;
+  AnsiString replace=Edit2->Text;
+  if(OpenTextFileDialog1->Execute()){
+	  //SearchAndReplace(OpenTextFileDialog1->FileName,search,replace);
+	   //practico1(OpenTextFileDialog1->FileName,search,replace);
+	   Edit3->Text=SearchAndReplace_Cont(OpenTextFileDialog1->FileName,search);
+  }
+}
+//---------------------------------------------------------------------------
 

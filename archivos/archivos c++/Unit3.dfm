@@ -39,14 +39,14 @@ object Form3: TForm3
   end
   object Button1: TButton
     Left = 8
-    Top = 36
+    Top = 12
     Width = 121
     Height = 25
     TabOrder = 3
   end
   object Button2: TButton
     Left = 8
-    Top = 67
+    Top = 43
     Width = 121
     Height = 25
     Caption = 'CantVocales'
@@ -55,7 +55,7 @@ object Form3: TForm3
   end
   object Button3: TButton
     Left = 8
-    Top = 98
+    Top = 74
     Width = 121
     Height = 25
     Caption = 'CantDigit'
@@ -64,7 +64,7 @@ object Form3: TForm3
   end
   object Button4: TButton
     Left = 8
-    Top = 136
+    Top = 112
     Width = 121
     Height = 25
     Caption = 'CantNumeros'
@@ -73,7 +73,7 @@ object Form3: TForm3
   end
   object Button5: TButton
     Left = 8
-    Top = 167
+    Top = 143
     Width = 121
     Height = 25
     Caption = 'CantPalabras'
@@ -82,7 +82,7 @@ object Form3: TForm3
   end
   object Button6: TButton
     Left = 8
-    Top = 198
+    Top = 174
     Width = 121
     Height = 25
     Caption = 'CantPalabraXlinea'
@@ -91,7 +91,7 @@ object Form3: TForm3
   end
   object Button7: TButton
     Left = 8
-    Top = 229
+    Top = 205
     Width = 121
     Height = 25
     Caption = 'CantNumer_Linea'
@@ -100,7 +100,7 @@ object Form3: TForm3
   end
   object Button8: TButton
     Left = 8
-    Top = 260
+    Top = 236
     Width = 121
     Height = 25
     Caption = 'Primera_palabras'
@@ -109,12 +109,39 @@ object Form3: TForm3
   end
   object Button9: TButton
     Left = 8
-    Top = 291
+    Top = 267
     Width = 121
     Height = 25
     Caption = 'Primer_numero'
     TabOrder = 11
     OnClick = Button9Click
+  end
+  object Button10: TButton
+    Left = 8
+    Top = 298
+    Width = 121
+    Height = 25
+    Caption = 'convert_1erLetra May'
+    TabOrder = 12
+    OnClick = Button10Click
+  end
+  object Button11: TButton
+    Left = 160
+    Top = 187
+    Width = 121
+    Height = 25
+    Caption = 'poner_lineasIzq'
+    TabOrder = 13
+    OnClick = Button11Click
+  end
+  object Button12: TButton
+    Left = 160
+    Top = 218
+    Width = 121
+    Height = 25
+    Caption = 'Button12'
+    TabOrder = 14
+    OnClick = Button12Click
   end
   object OpenTextFileDialog1: TOpenTextFileDialog
     Left = 240
