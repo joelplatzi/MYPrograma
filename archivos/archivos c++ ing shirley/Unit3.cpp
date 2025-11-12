@@ -106,12 +106,13 @@ void SearchAndReplace(AnsiString name,AnsiString search,AnsiString replace){
  if(!f.fail()){
 	 while(!f.eof()){
 		   x=f.get();
-		   cad="";
+
 		   if(x==search[1]){
 			   i=1;
+			   cad="";
 				while(i<=n && !f.eof() && x==search[i]){
-					x=f.get();
 					cad=cad+x;
+                    x=f.get();
 					i++;
 				}
 				if(i>n){ //lo encontro
