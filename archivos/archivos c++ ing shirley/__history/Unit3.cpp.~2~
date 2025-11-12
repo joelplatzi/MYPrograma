@@ -1,0 +1,72 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit3.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm3 *Form3;
+//---------------------------------------------------------------------------
+__fastcall TForm3::TForm3(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button1Click(TObject *Sender)
+{
+ fstream f("a1.txt"); //Abre en modo lectura secuencial
+ char x; AnsiString cad;
+ cad="";
+ if(!f.fail()){
+	 while(!f.eof()){
+		  x=f.get(); //ve el caracter y se guarda en x
+		  if(!f.eof()){ //no lee la marca de fin de archivo
+			 if(x==10){
+				 x=',';
+			 }
+		  }
+		  cad=cad+x;
+	 }
+
+   f.close();
+   Edit1->Text=cad;
+ }
+
+ //f.close();
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button2Click(TObject *Sender)
+{
+  if(OpenTextFileDialog1->Execute()){
+	  Memo1->Lines->LoadFromFile(OpenTextFileDialog1->FileName);
+	  nombreArchivo=OpenTextFileDialog1->FileName; //guarda la ruta del archivo abierto
+      ShowMessage("Archivo abierto: "+ nombreArchivo);
+  }
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button3Click(TObject *Sender)
+{
+  Memo1->Lines->Clear(); //limpiar el contenido de memo1
+  nombreArchivo=""; // limpia la variable global
+  ShowMessage("Archivo cerrado . ");
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button4Click(TObject *Sender)
+{
+  if(!nombreArchivo.IsEmpty()){
+	 // guardar directamente en el archivo previamente abierto
+	 Memo1->Lines->SaveToFile(nombreArchivo);
+	 ShowMessage("Archivo guardado: "+ nombreArchivo);
+  }else{
+	  //si no hay un archivo abierto,mostrar SaveDialog
+	  if(SaveDialog1->Execute()){
+		  Memo1->Lines->SaveToFile(SaveDialog1->FileName);
+		  nombreArchivo=SaveDialog1->FileName;//Actualizar el nombre del archivo
+		  ShowMessage("Archivo guardado correctamente: "+ nombreArchivo);
+	  }
+  }
+}
+//---------------------------------------------------------------------------
