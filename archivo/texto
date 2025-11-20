@@ -1,1 +1,203 @@
+void __fastcall TForm3::FormCreate(TObject *Sender)
+{
+	 ruta="D:\\POO\\inf210\\archivos estructurados\\";
+	  nom="Alumnos.dat";
+	  AnsiString nomArch=ruta+nom;
+	  fstream f(nomArch.c_str(),ios::binary|ios::in);
+	  if(f.fail()){
+		  f.open(nomArch.c_str(),ios::binary|ios::out);
+	  }
+	  f.close();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button1Click(TObject *Sender)
+{
+  Edit1->Text="0";
+  Edit2->Text="";
+  Edit3->Text="";
+  Edit4->Text="1";
+  Edit5->Text="1";
+  Edit6->Text="2000";
+ // Edit1->Text="0";
 
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button2Click(TObject *Sender)
+{
+   RegAlumno reg; AnsiString nomArch=ruta+nom;
+   AnsiString aux;
+   reg.cod=Edit1->Text.ToInt();
+   aux=Edit2->Text;
+   //strcpy sirve para copiar una cadena de caracteres
+   /*
+    strcpy(destino, origen);
+destino → puntero (o arreglo de char) donde se copiará la cadena.
+
+origen → puntero (o arreglo de char) que contiene la cadena que quieres copiar.
+   */
+   strcpy(reg.nom,aux.c_str());
+   aux=Edit3->Text;
+   strcpy(reg.dir,aux.c_str());
+   reg.fecha.dia=Edit4->Text.ToInt();
+   reg.fecha.mes=Edit5->Text.ToInt();
+   reg.fecha.año=Edit6->Text.ToInt();
+   fstream f(nomArch.c_str(),ios::binary|ios::app);
+//ios::app → abre el archivo para añadir datos al final sin borrar el contenido existente.
+   f.write((char*)&reg,23);
+   f.close();
+   Button1Click(Sender); //limpiar la pantallita
+   ShowMessage("Datos guardados :");
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button3Click(TObject *Sender)
+{
+  byte x;
+  AnsiString nomArch=ruta+nom;
+  AnsiString cad="";
+  RegAlumno reg;
+  fstream f(nomArch.c_str(),ios::binary|ios::in);
+  /*
+  f.read((char*)&reg,23);
+  Edit1->Text=reg.cod;
+  Edit2->Text=reg.nom;
+  ShowMessage("SIG");
+  f.read((char*)&reg,23);
+  Edit1->Text=reg.cod;
+  Edit2->Text=reg.nom;
+  f.close(); */
+  for(byte i=1; i<=23; i++){
+	  f.read((char*)&x,1);
+	  cad=cad+IntToStr(x)+",";
+  }
+  Edit2->Text=cad;
+  f.close();
+}
+
+/////.h
+private:	// User declarations
+	AnsiString nom; //nombre del archivo
+	AnsiString ruta; //ruta al archivo
+public:		// User declarations
+	__fastcall TForm3(TComponent* Owner);
+};
+
+struct TFecha {
+	byte dia;
+	byte mes;
+	Word año;
+}; //4 bytes
+
+struct RegAlumno{
+	Word cod;
+	char nom[21];
+	char dir[21];
+	TFecha fecha;
+};
+/*
+void __fastcall TForm1::Button3Click(TObject *Sender)
+{					   //+``-. []
+  //  RegAlumno reg; AnsiString linea; Word i,n;
+ // AnsiString lis=ruta +"listado.txt";
+  AnsiString nomArch=ruta+nom;
+   AnsiString lis=ruta +"listado.txt";
+	RegAlumno reg; AnsiString linea; Word i,n;
+//  RegAlumno reg; AnsiString linea; Word i,n;
+ // AnsiString lis=ruta +"listado.txt";
+  fstream f1(nomArch.c_str(),ios::binary|ios::in);
+  fstream f2(lis.c_str(),ios::out); //out lo va a crear
+  if(!f1.fail()){
+	linea="LISTADO DE ALUMNOS";
+	n=linea.Length();
+	for(i=1; i<=n; i++){
+		 f2.put(linea[i]);
+	}
+	f2.put(10);
+	while(!f1.eof()){
+		f1.read((char*)&reg,sizeof(reg));
+		if(!f1.eof()){
+		   linea=reg.cod;
+		   linea=linea+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
+
+		   n=linea.Length();
+		   for(i=1; i<=n; i++){
+			   f2.put(linea[i]);
+		   }
+		   f2.put(10);
+		}
+	}
+	f1.close(); f2.close();
+	ShowMessage(" Listado generado ");
+  }
+
+
+//  f1.close();
+}
+//---------------------------------------------------------------------------
+void ConvAMayus(RegAlumno r){
+  byte i,n,p;  //convierte a mayusculas solo el nombre
+  AnsiString min="qwertyuiopadfghjklñzxcvbnm"; //siempre que esten igual cada simbolito
+  AnsiString may="WERTYUIOPASDFGHJKLÑZXCVBNM";
+  n=strlen(r.nom);  //strlen se usa para vectores
+  for(i=0; i<n; i++){
+	  p=min.Pos(r.nom[i]);
+	  if(p>0)
+		 r.nom[i]=may[p];
+  }
+
+}
+void __fastcall TForm1::Button4Click(TObject *Sender)
+{
+  RegAlumno reg; AnsiString nomArch=ruta+nom; Cardinal p;  //  |
+  fstream f(nomArch.c_str(),ios::binary|ios::in|ios::out);
+  if(!f.fail()){
+	 while(!f.eof()){
+		 f.read((char*)&reg,sizeof(reg));
+		 if(!f.eof()){
+			 //cambiar a mayus solamente el nombre
+			 ConvAMayus(reg); //se encarga de pasarlo a mayusculas
+			 p=f.tellg(); //nos dice donde esta el archivo antes de que se mueva
+			 f.seekg(-sizeof(reg),ios::cur);//donde esta el puntero
+			 f.write((char*)&reg,sizeof(reg));
+			 f.seekg(p);
+		 }
+	 }
+	 f.close();
+	 ShowMessage("Archivo actualizado");
+
+  }
+}
+//---------------------------------------------------------------------------
+void ConvAMayusc(RegAlumno r){
+  byte i,n,p;  //convierte a mayusculas solo el nombre
+  AnsiString min="qwertyuiopadfghjklñzxcvbnm"; //siempre que esten igual cada simbolito
+  AnsiString may="WERTYUIOPASDFGHJKLÑZXCVBNM";
+  n=strlen(r.dir);  //strlen se usa para vectores
+  for(i=0; i<n; i++){
+	  p=min.Pos(r.dir[i]);
+	  if(p>0)
+		 r.dir[i]=may[p];
+  }
+
+}
+void __fastcall TForm1::Button5Click(TObject *Sender)
+{
+  RegAlumno reg; AnsiString nomArch=ruta+nom; Cardinal p;  //
+  fstream f(nomArch.c_str(),ios::binary|ios::in|ios::out);
+  if(!f.fail()) {
+	  while(!f.eof()){
+		   f.read((char*)&reg,sizeof(reg));
+		   if(!f.eof()){
+			   ConvAMayusc(reg);
+			   p=f.tellg();
+			   f.seekg(-sizeof(reg),ios::cur); //cur es donde esta el puntero
+			   f.write((char*)&reg,sizeof(reg));
+			   f.seekg(p);
+		   }
+	  }
+	  f.close();
+	  ShowMessage("Archivo actualizado");
+  }
+
+}
+
+*/
