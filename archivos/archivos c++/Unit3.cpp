@@ -373,6 +373,8 @@ void MayusMinus(char lin[]){
 	 }
   }
 }
+//como hacer un proceso que me cuente las palabras sean mayusculas
+//minusculas mezcladas pero que sea esa palabra mandada por el usuario en c++
 /*Modifica el contenido de un archivo de texto de forma que la primer
 letra de cada linea este en mausculas y el resto en minusculas
 */
@@ -557,6 +559,99 @@ void __fastcall TForm3::Button12Click(TObject *Sender)
 	   //practico1(OpenTextFileDialog1->FileName,search,replace);
 	   Edit3->Text=SearchAndReplace_Cont(OpenTextFileDialog1->FileName,search);
   }
+}
+//---------------------------------------------------------------------------
+//Escribir un proceso para generar un archivo de texto que contenga la cantidad de
+//palabras y numeros que hay en cada linea de otro archivo de texto
+void CantPalAndNum(AnsiString name){
+  char x;   byte i,n,p,pal,num;  bool sw,b;
+  AnsiString nomArch="lista.txt";
+  fstream f(name.c_str());
+  ofstream fo(nomArch.c_str());
+  if(!f.fail()){
+	 sw=false; b=false;
+	 pal=0; num=0;
+	 while(!f.eof()){
+		 x=f.get();
+		 if(!f.eof() && x!=10){
+			 if(EsPalabra(x)){
+				 if(!sw){
+					 pal++;
+					 sw=true;
+				 }
+			 }else if(isdigit(x)){
+					if(!b){
+						num++;
+						b=true;
+					}
+				 sw=false;
+			 }else{
+				 sw=false;
+				 b=false;
+			 }
+		 }else{
+			 fo.put(pal+48); fo.put(',');fo.put(num+48); fo.put(10);
+			 pal=0; num=0;
+         }
+	 }
+	 f.close();
+     fo.close();
+  }
+}
+
+void __fastcall TForm3::Button13Click(TObject *Sender)
+{
+   if(OpenTextFileDialog1->Execute()){
+	   CantPalAndNum(OpenTextFileDialog1->FileName);
+   }
+}
+//---------------------------------------------------------------------------
+//Modifica un archivo de texto de forma que se reemplace cada caracter
+//numerico (digito) por su literal
+AnsiString literal(char &x){
+   AnsiString palabras[] = {"uno", "dos", "tres","cuatro","cinco","seis","siete","ocho","nueve"};
+
+	if (x >= '1' && x <= '9')
+        return palabras[x - '1'];  // convertir char a índice
+    else
+        return "fuera de rango";
+
+}
+
+void ReplaceChar(AnsiString nom){
+ char x;    AnsiString nomArch="replace.txt";
+ AnsiString lit;   byte i,p,n;
+ fstream f(nom.c_str());
+ ofstream fo(nomArch.c_str());
+ if(!f.fail()){
+	while(!f.eof()){
+	   x=f.get();
+	   lit="";
+	   if(!f.eof()){
+		   if(isdigit(x)){
+			   lit=literal(x);
+			   n=lit.Length();
+			   for(i=1; i<=n; i++){
+				  fo.put(lit[i]);
+			   }
+		   }else{
+			   fo.put(x);
+           }
+	   }
+	}
+	f.close();
+	fo.close();
+	remove(nom.c_str());
+	rename(nomArch.c_str(),nom.c_str());
+ }
+}
+void __fastcall TForm3::Button14Click(TObject *Sender)
+{
+  // char num=Edit1->Text[1];
+   //Edit2->Text=literal(num);
+   if(OpenTextFileDialog1->Execute()){
+	   ReplaceChar(OpenTextFileDialog1->FileName);
+   }
 }
 //---------------------------------------------------------------------------
 

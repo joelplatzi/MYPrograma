@@ -76,6 +76,94 @@ void __fastcall TForm3::FormCreate(TObject *Sender)
    OpenTextFileDialog1->InitialDir="D:\\POO\\inf210\\archivos_textos";
 }
 //---------------------------------------------------------------------------
+ bool EsLetra(char x){
+   AnsiString letra="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM";
+   return letra.Pos(x)>0;
+ }
+
+ void MayMin(char &x){
+   Word i,p,n;
+   AnsiString min="qwertyuiopasdfghjklÑzxcvbnm";
+   AnsiString may="QWERTYUIOPASDFGHJKLÑZXCVBNM";
+   if(EsLetra(x)){
+	   p=may.Pos(x);
+	   if(p>0)
+		 x=min[p];
+   }
+ }
+Cardinal contador(AnsiString nom,AnsiString &reem){
+  Cardinal c=0; char x; Word i,n,p;
+  n=reem.Length();
+  fstream f(nom.c_str());
+  if(!f.fail()){
+	  x=f.get();
+	  while(!f.eof()){
+			  MayMin(x);
+			  MayMin(reem[1]);
+			  if(x==reem[1]){
+				   i=1;
+				   while(i<=n && !f.eof() && x==reem[i] ){
+					   x=f.get();
+                       MayMin(x);
+					   i++;
+					   if(i<=n)
+						  MayMin(reem[i]);
+				   }
+				   if(i>n){
+					   c++;
+				   }
+			  }else{
+				  x=f.get();
+			  }
+	  }
+	  f.close();
+  }
+  return c;
+}
+void reemplazo(AnsiString nom,AnsiString &search,AnsiString replace){
+ char x; AnsiString cad; Word i,n,p;
+ n=search.Length();
+ AnsiString temporal="reemplazo.txt";
+ fstream f(nom.c_str());
+ ofstream fo(temporal.c_str());
+ if(!f.fail()){
+	 x=f.get();
+	 while(!f.eof()){
+		   MayMin(x);
+		   MayMin(search[1]);
+		   if(x==search[1]){
+			   cad="";
+			   i=1;
+			   while(i<=n && !f.eof() && x==search[i] ){
+				   cad=cad+x;
+				   x=f.get();
+				   MayMin(x);
+				   i++;
+				   if(i<=n)
+					 MayMin(search[i]);
+			   }
+			   if(i>n){ //lo encontro
+				  for(i=1; i<=replace.Length(); i++){
+					   fo.put(replace[i]);
+				  }
+			   }else{  //no lo encontro
+					 for(i=1; i<=cad.Length(); i++){
+						   fo.put(cad[i]);
+					 }
+			   }
+		   }else{
+			   fo.put(x);
+			   x=f.get();
+		   }
+
+	 }
+	 f.close(); fo.close();
+	 remove(nom.c_str());
+	 rename(temporal.c_str(),nom.c_str());
+ }
+
+}
+
  Cardinal SearchAndReplace(AnsiString nom,AnsiString search){
   Cardinal c=0; char x; byte i,n=search.Length();
   AnsiString cad;
@@ -98,7 +186,8 @@ void __fastcall TForm3::FormCreate(TObject *Sender)
    }
   return c;
  }
-void SearchAndReplace(AnsiString name,AnsiString search,AnsiString replace){
+
+void SearchAndReplace(AnsiString name,AnsiString &search,AnsiString replace){
  char x; Word n=search.Length(); byte i;
  AnsiString cad;
  fstream f(name.c_str());
@@ -106,14 +195,18 @@ void SearchAndReplace(AnsiString name,AnsiString search,AnsiString replace){
  if(!f.fail()){
 	 while(!f.eof()){
 		   x=f.get();
-
+			MayMin(x);
+			MayMin(search[1]);
 		   if(x==search[1]){
 			   i=1;
 			   cad="";
 				while(i<=n && !f.eof() && x==search[i]){
 					cad=cad+x;
-                    x=f.get();
+					x=f.get();
+                    MayMin(x);
 					i++;
+					if(i<n)
+					 MayMin(search[i]);
 				}
 				if(i>n){ //lo encontro
 					for(i=1; i<=replace.Length(); i++){
@@ -148,8 +241,8 @@ void __fastcall TForm3::Button5Click(TObject *Sender)
 	 // guardar directamente en el archivo previamente abierto
 	 Memo1->Lines->SaveToFile(nombreArchivo);
 	 ShowMessage("Archivo guardado: "+ nombreArchivo);
-	 // Edit3->Text=SearchAndReplace(nombreArchivo,search);
-	 SearchAndReplace(nombreArchivo,search,replace);
+	//  Edit3->Text=contador(nombreArchivo,search);
+	reemplazo(nombreArchivo,search,replace);
   }else{
 	  //si no hay un archivo abierto,mostrar SaveDialog
 	  if(SaveDialog1->Execute()){

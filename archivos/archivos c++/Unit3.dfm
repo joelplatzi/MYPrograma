@@ -139,9 +139,27 @@ object Form3: TForm3
     Top = 218
     Width = 121
     Height = 25
-    Caption = 'Button12'
+    Caption = 'SearchAndReplace'
     TabOrder = 14
     OnClick = Button12Click
+  end
+  object Button13: TButton
+    Left = 160
+    Top = 249
+    Width = 121
+    Height = 25
+    Caption = 'Button13'
+    TabOrder = 15
+    OnClick = Button13Click
+  end
+  object Button14: TButton
+    Left = 160
+    Top = 280
+    Width = 121
+    Height = 25
+    Caption = 'Button14'
+    TabOrder = 16
+    OnClick = Button14Click
   end
   object OpenTextFileDialog1: TOpenTextFileDialog
     Left = 240
