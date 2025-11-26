@@ -1,0 +1,79 @@
+//---------------------------------------------------------------------------
+
+#ifndef Unit3H
+#define Unit3H
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.Mask.hpp>
+#include <fstream>
+//---------------------------------------------------------------------------
+struct TFecha{
+	byte dia;
+	byte mes;
+	Word año;
+}; //4byte
+struct RegAlumno{
+	char marca;
+	Word cod;
+	char nom[21]; //cadena solo de 20 caracteres
+	char dir[21]; //cadena solo de 20 caracteres
+	TFecha fecha;
+};
+struct RegIdxNom{
+	char nom[21];
+	Cardinal pos;
+};
+class TForm3 : public TForm
+{
+__published:	// IDE-managed Components
+	TLabel *Label1;
+	TLabel *Label2;
+	TLabel *Label3;
+	TLabel *Label4;
+	TLabel *Label5;
+	TEdit *Edit1;
+	TEdit *Edit2;
+	TEdit *Edit3;
+	TMaskEdit *MaskEdit1;
+	TButton *Button1;
+	TButton *Button2;
+	TButton *Button3;
+	TStringGrid *StringGrid1;
+	TButton *Button4;
+	TButton *Button5;
+	TButton *Button6;
+	TButton *Button7;
+	TButton *Button8;
+	TButton *Button9;
+	TButton *Button10;
+	TButton *Button11;
+	TButton *Button12;
+	TEdit *Edit4;
+	void __fastcall Button1Click(TObject *Sender);  //guardar
+	void __fastcall Button2Click(TObject *Sender);  //eliminar
+	void __fastcall Button3Click(TObject *Sender);  //limpiar
+	void __fastcall Edit1Exit(TObject *Sender);
+	void __fastcall Button4Click(TObject *Sender);
+	void __fastcall Button7Click(TObject *Sender);
+	void __fastcall Button8Click(TObject *Sender);
+	void __fastcall Button9Click(TObject *Sender);
+	void __fastcall Button10Click(TObject *Sender);
+	void __fastcall Button11Click(TObject *Sender);
+	void __fastcall Button12Click(TObject *Sender);
+	void __fastcall Edit2Exit(TObject *Sender);   //mostrar
+private:	// User declarations
+   AnsiString ruta;
+   AnsiString nom;
+public:		// User declarations
+	__fastcall TForm3(TComponent* Owner);
+   void ordenar(AnsiString ArchIdx);
+   Cardinal strchar(char x);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TForm3 *Form3;
+//---------------------------------------------------------------------------
+#endif

@@ -1,0 +1,7 @@
+LISTADO DE ALUMNOS
+200 carla
+500 cristian
+600 damaris
+400 jose
+100 leo
+300 maria

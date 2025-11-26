@@ -1,0 +1,434 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit3.h"
+#include "string"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+
+TForm3 *Form3;
+//---------------------------------------------------------------------------
+__fastcall TForm3::TForm3(TComponent* Owner)
+	: TForm(Owner)
+{    //D:\POO\inf210\archivos estructurados2\ing shirley
+  nom="Alumnos.dat";
+  //la ruta cambiar ustedes
+  ruta="D:\\POO\\inf210\\archivos estructurados2\\ing shirley\\";
+  AnsiString nomArch=ruta+nom;
+  //AnsiString archIdx="nom.idx";
+  fstream f(nomArch.c_str(),ios::in|ios::binary);
+  if(f.fail()){
+	  f.open(nomArch.c_str(),ios::out|ios::binary);
+  }
+  f.close();
+}
+//---------------------------------------------------------------------------
+//guaradar
+void __fastcall TForm3::Button1Click(TObject *Sender)
+{
+   AnsiString nomArch=ruta+nom;
+   RegAlumno reg,regNuevo;
+   AnsiString aux;
+   boolean hallado=false;
+   regNuevo.marca='0';
+   regNuevo.cod=Edit1->Text.ToInt();
+   aux=Edit2->Text;
+   strcpy(regNuevo.nom,aux.c_str());
+   aux=Edit3->Text;
+   strcpy(regNuevo.dir,aux.c_str());
+   aux=MaskEdit1->Text;
+   regNuevo.fecha.dia=StrToInt(aux.SubString(1,2));
+   regNuevo.fecha.mes=StrToInt(aux.SubString(4,2));
+   regNuevo.fecha.año=StrToInt(aux.SubString(7,4));
+   //hasta aqui lo que hicimos fue copiar de la pantallita
+   fstream f(nomArch.c_str(),ios::in|ios::out|ios::binary);
+   if(!f.fail()){
+	   while(!f.eof()&&(!hallado)){
+			 f.read((char*)&reg,sizeof(reg));
+			 if(!f.eof()){
+				 hallado=(reg.cod==regNuevo.cod)&&(regNuevo.marca!='*');
+			 }
+	   }
+	   if(hallado){
+			 f.seekg(-sizeof(reg),ios::cur);
+			 f.write((char*)&regNuevo,sizeof(regNuevo));
+	   }else{
+		   f.close();
+		   f.open(nomArch.c_str(),ios::app|ios::binary);
+		   f.write((char*)&regNuevo,sizeof(regNuevo));
+	   }
+	   f.close();
+	   Edit2->Text="";
+	   Edit3->Text="";
+	   MaskEdit1->Text="";
+   }
+
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button2Click(TObject *Sender)
+{
+ AnsiString nomArch=ruta+nom;
+ RegAlumno reg;
+ fstream f(nomArch.c_str(),ios::in|ios::out|ios::binary);
+ Word codi=Edit1->Text.ToInt();
+ boolean hallado=false;
+ if(!f.fail()){
+	 while(!f.eof()&&(!hallado)){
+		  f.read((char*)&reg,sizeof(reg));
+		  if(!f.eof()){
+			  hallado=codi==reg.cod;
+		  }
+	 }
+	 if(hallado){
+		 reg.marca='*';
+		 f.seekg(-sizeof(reg),ios::cur);
+		 f.write((char*)&reg,sizeof(reg));
+		 Button1Click(Sender);
+	 }
+ }
+  f.close();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button3Click(TObject *Sender)
+{
+	Edit1->Text="";
+  Edit2->Text="";
+  Edit3->Text="";
+  MaskEdit1->Text="";
+  Edit1->SetFocus();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Edit1Exit(TObject *Sender)
+{
+  AnsiString nomArch=ruta+nom;
+  boolean hallado=false;
+  RegAlumno reg;
+  Word codi;
+  codi=Edit1->Text.ToInt();
+  fstream f(nomArch.c_str(),ios::in|ios::binary);
+  if(!f.fail()){
+	  while(!f.eof()&&(!hallado)){
+		  f.read((char*)&reg,sizeof(reg));
+		  if(!f.eof()){
+			   hallado=(codi==reg.cod)&&(reg.marca!='*');
+		  }
+	  }
+	  if(hallado){
+		 Edit2->Text=reg.nom;
+		 Edit3->Text=reg.dir;
+		 MaskEdit1->Text=IntToStr(reg.fecha.dia)+"/"+IntToStr(reg.fecha.mes)+"/"+IntToStr(reg.fecha.año);
+	  }else{
+		  Edit2->Text="";
+		  Edit3->Text="";
+		  MaskEdit1->Text="";
+	  }
+  }
+  f.close();
+}
+//---------------------------------------------------------------------------
+//Esto es para copiar al StringGrid1
+void __fastcall TForm3::Button4Click(TObject *Sender)
+{
+	AnsiString nomArch=ruta+nom;
+  	AnsiString datos[] = {"cod", "nombre", "direccion", "fecha", "marca", "telefono"};
+	byte c = 0;
+	int n = sizeof(datos) / sizeof(datos[0]);
+	RegAlumno reg;
+	fstream fi(nomArch.c_str(), ios::in | ios::binary);
+	if ( !fi.fail() ) {
+		fi.read((char*)&reg, sizeof(reg));
+		while( !fi.eof()) {
+		  c++;
+		  StringGrid1->Cells[0][c] = reg.cod;
+		  StringGrid1->Cells[1][c] = reg.nom;
+		  StringGrid1->Cells[2][c] = reg.dir;
+		  AnsiString fecha = IntToStr(reg.fecha.dia) + "/" + IntToStr(reg.fecha.mes) + "/" + IntToStr(reg.fecha.año);
+		  StringGrid1->Cells[3][c] = fecha; //reg.fecha.ToString();
+		  //StringGrid1->Cells[3][c] = reg.fecha.dia;
+		  StringGrid1->Cells[4][c] = reg.marca;
+		  //StringGrid1->Cells[5][c] = reg.telefono;
+		  fi.read((char*)&reg, sizeof(reg));
+		};
+	}
+	fi.close();
+	for (byte i = 0; i < n; i++) {
+	   StringGrid1->Cells[i][0] = datos[i];
+	}
+//	delete[] datos;
+	StringGrid1->ColCount = n;
+	StringGrid1->RowCount = c+1;
+}
+//---------------------------------------------------------------------------
+
+RegAlumno MenorReg(RegAlumno reg){
+   AnsiString nomArch="Alumnos.dat";
+   fstream f(nomArch.c_str(),ios::in|ios::binary);
+   Word inf,sup,inter,codi;
+   inf=reg.cod;
+   reg.marca='0';
+   boolean hallado=false;
+   while(!f.eof()){
+		 f.read((char*)&reg,sizeof(reg));
+		 if(!f.eof()){
+			 if(inf>reg.cod){
+				  inf=reg.cod;
+
+			 }
+		 }
+   }
+   reg.cod=inf;
+   f.close();
+   return reg;
+}
+ //ordenamiento por codigo
+void __fastcall TForm3::Button7Click(TObject *Sender)
+{
+  AnsiString nomArch=ruta+nom;
+  RegAlumno reg,regi,regj,regk;
+  AnsiString nuevo=ruta+"nuevo.dat";
+  Word codi,i,j,k;
+  fstream fi(nomArch.c_str(),ios::in|ios::out,ios::binary);
+  if(!fi.fail()){
+	  i=0; j=1;
+	  while(i<j){ //mientras no haya terminado de ordenar
+		  //buscando el menor
+		  j=i;
+		  fi.seekg(j,ios::beg);
+		  while(!fi.eof()){
+			   j=fi.tellg(); //tellg() devuelve la posicion actual del puntero j=0
+			   fi.read((char*)&regj,sizeof(regj));
+			   if(!fi.eof()){
+				   if(j==i){ //si es el primero
+					  k=j;
+					  regk=regj;
+					  regi=regj;
+				   }else{
+					   if(regj.cod<regk.cod){
+						   k=j;
+						   regk=regj;
+					   }
+				   } //fin si no es el primero
+			   }  //fin si no leyo el eof
+		  }  //fin mientras no eof
+		  //intercambiar los registros i, k
+		  fi.close();
+		  fi.open(nomArch.c_str(),ios::in|ios::out|ios::binary);
+		  if(i!=k){
+			   fi.seekg(k,ios::beg);
+			   fi.write((char*)&regi,sizeof(regi));
+			   fi.seekg(i,ios::beg);
+			   fi.write((char*)&regk,sizeof(regk));
+		  }
+		  i=i+sizeof(regi);
+		  j=j-sizeof(regj);
+	  }
+
+  }
+  fi.close();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm3::Button8Click(TObject *Sender)
+{
+   RegAlumno reg;    AnsiString nomArch=ruta+nom;
+   RegIdxNom regidx;
+   fstream fd(nomArch.c_str(),ios::in|ios::binary);
+   fstream fi("nom.idx",ios::out|ios::binary);
+   if(!fd.fail()){
+	   while(!fd.eof()){
+			regidx.pos=fd.tellg();
+			fd.read((char*)&reg,sizeof(reg));
+			if(!fd.eof()){
+				strcpy(regidx.nom,reg.nom);
+				fi.write((char*)&regidx,sizeof(regidx));
+			}
+	   }
+   }
+   fd.close(); fi.close();
+}
+
+//---------------------------------------------------------------------------
+void TForm3::ordenar(AnsiString archIdx){
+ RegIdxNom regi,regj,regk;
+ Cardinal i,j,k,x,y,z;
+ fstream fi(archIdx.c_str(),ios::in|ios::out|ios::binary);
+ if(!fi.fail()){
+	 i=0; j=1;
+	 while(i<j){
+		  j=i;
+		  fi.seekg(j,ios::beg);
+		  while(!fi.eof()){
+				j=fi.tellg();
+				fi.read((char*)&regj,sizeof(regj));
+				if(!fi.eof()){
+					if(j==i){ //para el primero
+						k=j;
+						regk=regj;
+						regi=regj;
+					}else{
+					// a, b, c, d, e, f, g, h, i, j, k,
+					// l, m, n, ñ, o, p, q, r, s, t, u, v, w, x, y, z
+					   //	x=str2(regj.nom[0]);
+					   //	y=str2(regk.nom[0]);
+						if(regj.nom[0]<regk.nom[0]){
+							 k=j;
+                             regk=regj;
+							 //strcpy(regk.nom,regj.nom);
+						}
+					}
+				}
+		  }
+		  //intercambiamos los registros
+		  fi.close();
+		  fi.open(archIdx.c_str(),ios::in|ios::out|ios::binary);
+		  if(i!=k){
+			 fi.seekg(k,ios::beg);
+			 fi.write((char*)&regi,sizeof(regi));
+			 fi.seekg(i,ios::beg);
+			 fi.write((char*)&regk,sizeof(regk));
+		  }
+		  i=i+sizeof(regi);
+		  j=j-sizeof(regj);
+	 }
+ }
+ fi.close();
+}
+
+void __fastcall TForm3::Button9Click(TObject *Sender)
+{
+   ordenar("nom.idx");
+
+}
+//---------------------------------------------------------------------------
+
+
+//creando listado por nombre
+void __fastcall TForm3::Button10Click(TObject *Sender)
+{
+   AnsiString nomArch=ruta+nom;
+   RegAlumno reg;
+   RegIdxNom regidx;
+   AnsiString linea;
+   fstream pfi("nom.idx",ios::in|ios::binary);
+   fstream pf(nomArch.c_str(),ios::in|ios::binary);
+   fstream t("Listado1.txt",ios::out|ios::binary);
+   if(!pfi.fail()){
+	   linea="LISTADO DE ALUMNOS";
+	   for(Word i=1; i<=linea.Length();i++){
+		   t.put(linea[i]);
+	   }
+	   t.put(10);
+	   while(!pfi.eof()){
+			 pfi.read((char*)&regidx,sizeof(regidx));
+			 if(!pfi.eof()){
+				  pf.seekg(regidx.pos,ios::beg);
+				  pf.read((char*)&reg,sizeof(reg));
+				  linea=IntToStr(reg.cod)+" "+reg.nom;
+				  for(Word i=1; i<=linea.Length();i++){
+					  t.put(linea[i]);
+				  }
+				  t.put(10);
+			 }
+	   }
+   }
+   pfi.close();
+   pf.close();
+   t.close();
+}
+//---------------------------------------------------------------------------
+//ordenamiento por nombre
+void __fastcall TForm3::Button11Click(TObject *Sender)
+{
+ AnsiString nomArch=ruta+nom;
+ //RegIdxNom regidx;
+ RegAlumno regi,regj,regk;
+ Cardinal i,j,k;
+ fstream fi(nomArch.c_str(),ios::in|ios::out|ios::binary);
+ if(!fi.fail()){
+	 i=0; j=1;
+	 while(i<j){
+		 j=i;
+		 fi.seekg(j,ios::beg);
+		 while(!fi.eof()){
+			   j=fi.tellg();
+			   fi.read((char*)&regj,sizeof(regj));
+			   if(!fi.eof()){
+					if(j==i){ //para el primero
+						k=j;
+						regk=regj;
+						regi=regj;
+					}else{
+						if(regj.nom[0]<regk.nom[0]){
+							 k=j;
+							 regk=regj;
+						}
+					}
+			   }
+		 }
+		 //intercambiando los registros
+		 fi.close();
+		 fi.open(nomArch.c_str(),ios::in|ios::out|ios::binary);
+		 if(i!=k){
+			 fi.seekg(k,ios::beg);
+			 fi.write((char*)&regi,sizeof(regi));
+			 fi.seekg(i,ios::beg);
+			 fi.write((char*)&regk,sizeof(regk));
+		 }
+		 i=i+sizeof(regi);
+		 j=j-sizeof(regj);
+	 }
+ }
+ fi.close();
+}
+//---------------------------------------------------------------------------
+
+Cardinal str2(AnsiString nomArch){
+  Cardinal c,p,f,a;    AnsiString aux;
+
+  return c;
+}
+
+void __fastcall TForm3::Button12Click(TObject *Sender)
+{
+  AnsiString aux;     Cardinal fAct,fecha,v;
+  RegAlumno reg,regNuevo;
+  aux=MaskEdit1->Text;
+  fAct=2025;
+  fecha=StrToInt(aux.SubString(7,4));
+  v=fAct-fecha;
+  Edit4->Text=v;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm3::Edit2Exit(TObject *Sender)
+{
+  AnsiString nomArch=ruta+nom;
+  AnsiString aux;
+  boolean hallado;
+  RegAlumno reg;
+  aux=Edit2->Text;
+  fstream f(nomArch.c_str(),ios::in|ios::binary);
+  if(!f.fail()){
+	  hallado=false;
+	  while(!f.eof()&& !hallado){
+		  f.read((char*)&reg,sizeof(reg));
+		  if(!f.eof()){
+			  hallado=aux==reg.nom;
+		  }
+	  }
+      if(hallado){
+		   Edit1->Text=reg.cod;
+		   Edit3->Text=reg.dir;
+		   MaskEdit1->Text=IntToStr(reg.fecha.dia)+"/"+IntToStr(reg.fecha.mes)+"/"+IntToStr(reg.fecha.año);
+	  }else{
+		  Button3Click(Sender);
+      }
+  }
+  f.close();
+}
+//---------------------------------------------------------------------------
+
