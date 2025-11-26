@@ -1,0 +1,285 @@
+﻿//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit3.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm3 *Form3;
+//---------------------------------------------------------------------------
+__fastcall TForm3::TForm3(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::FormCreate(TObject *Sender)
+{        //D:\POO\inf210\archivos estructurados2
+	 ruta="D:\\POO\\inf210\\archivos estructurados2\\";
+	  nom="Alumnos.dat";
+	  AnsiString nomArch=ruta+nom;
+	  fstream f(nomArch.c_str(),ios::binary|ios::in);
+	  if(f.fail()){
+		  f.open(nomArch.c_str(),ios::binary|ios::out);
+	  }
+	  f.close();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button1Click(TObject *Sender)
+{
+  Edit1->Text="0";
+  Edit2->Text="";
+  Edit3->Text="";
+  Edit4->Text="1";
+  Edit5->Text="1";
+  Edit6->Text="2000";
+ // Edit1->Text="0";
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button2Click(TObject *Sender)  //guardar datos
+{
+ //  RegAlumno reg; AnsiString nomArch=ruta+nom;
+  // AnsiString aux;
+  // reg.cod=Edit1->Text.ToInt();
+  // aux=Edit2->Text;
+   //strcpy sirve para copiar una cadena de caracteres
+   /*
+    strcpy(destino, origen);
+destino → puntero (o arreglo de char) donde se copiará la cadena.
+
+origen → puntero (o arreglo de char) que contiene la cadena que quieres copiar.
+   */
+ //  strcpy(reg.nom,aux.c_str());
+  // aux=Edit3->Text;
+  // strcpy(reg.dir,aux.c_str());
+  // reg.fecha.dia=Edit4->Text.ToInt();
+  // reg.fecha.mes=Edit5->Text.ToInt();
+  // reg.fecha.año=Edit6->Text.ToInt();
+  // fstream f(nomArch.c_str(),ios::binary|ios::app);
+//ios::app → abre el archivo para añadir datos al final sin borrar el contenido existente.
+  // f.write((char*)&reg,sizeof(reg));
+ //  f.close();
+   //Button1Click(Sender); //limpiar la pantallita
+   //ShowMessage("Datos guardados :");
+
+   //nuevo para guardar y modificar datos
+   RegAlumno reg,regNuevo; AnsiString nomArch=ruta+nom;
+   bool hallado; AnsiString aux;
+   regNuevo.cod=Edit1->Text.ToInt();
+   aux=Edit2->Text;
+   strcpy(regNuevo.nom,aux.c_str());
+   aux=Edit3->Text;
+   strcpy(regNuevo.dir,aux.c_str());
+   aux=Edit4->Text;
+   regNuevo.fecha.dia=StrToInt(aux);
+   aux=Edit5->Text;
+   regNuevo.fecha.mes=aux.ToInt();
+   aux=Edit6->Text;
+   regNuevo.fecha.año=aux.ToInt();
+ //Hasta aqui copiamos de la pantalla a una variable de memoria
+ //nos falta abrir el archivo
+   fstream f(nomArch.c_str(),ios::in|ios::out|ios::binary);
+   if(!f.fail()){
+	   hallado=false;
+	   while(!f.eof() && !hallado){
+			f.read((char*)&reg,sizeof(reg));
+			if(!f.eof()){
+				hallado=reg.cod==regNuevo.cod;
+			}
+	   }
+
+	   if(hallado){  //actualizar
+		   f.seekg(-sizeof(reg),ios::cur);
+		   f.write((char*)&regNuevo,sizeof(regNuevo));
+	   }else{ // agregar
+			f.close();
+			//fstream f(nomArch.c_str(),ios::app|ios::binary);
+			f.open(nomArch.c_str(),ios::app|ios::binary);
+			f.write((char*)&regNuevo,sizeof(regNuevo));
+
+	   }
+	   f.close();
+	   Edit1->Text="";
+	   Edit2->Text="";
+	   Edit3->Text="";
+	   Edit4->Text="";
+	   Edit5->Text="";
+	   Edit6->Text="";
+       ShowMessage("Datos guardados");
+	   Edit1->SetFocus();  //para que este pidiendo codigo el cursor
+   }
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::Button3Click(TObject *Sender)
+{
+   AnsiString nomArch=ruta+nom;
+   AnsiString lis=ruta+"listado.txt";
+   RegAlumno reg; AnsiString linea; Word i,n;
+   fstream f1(nomArch.c_str(),ios::binary|ios::in);
+   fstream f2(lis.c_str(),ios::out);
+   if(!f1.fail()){
+	 linea="LISTADO DE ALUMNOS";
+	 n=linea.Length();
+	 for(i=1; i<=n; i++){
+		 f2.put(linea[i]);
+	 }
+	 f2.put(10);
+	 while(!f1.eof()){
+		 f1.read((char*)&reg,sizeof(reg));
+		 if(!f1.eof()){
+			 linea=reg.cod;
+			 linea=linea+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
+			 n=linea.Length();
+			 for(i=1; i<=n; i++){
+				 f2.put(linea[i]);
+			 }
+			 f2.put(10);
+		 }
+	 }
+	 f1.close(); f2.close();
+	 ShowMessage("Listado generado");
+   }
+}
+//---------------------------------------------------------------------------
+void ConvAMayus(RegAlumno &r){
+  byte i,n,p; //convertimos a mayusculas solo el nombre
+  AnsiString min="qwertyuiopasdfghjklñzxcvbnm";
+  AnsiString may="QWERTYUIOPASDFGHJKLÑZXCVBNM";
+  n=strlen(r.nom);
+  for(i=0; i<n; i++){
+	  p=min.Pos(r.nom[i]);
+      if(p>0){
+		  r.nom[i]=may[p];
+	  }
+  }
+
+}
+void __fastcall TForm3::Button4Click(TObject *Sender)
+{
+  RegAlumno reg; AnsiString nomArch=ruta+nom; Word i,n,p;
+  fstream f(nomArch.c_str(),ios::binary|ios::in|ios::out);
+  if(!f.fail()){
+	  while(!f.eof()){
+		   f.read((char*)&reg,sizeof(reg)); //al hacer read el puntero se baja de forma secuencial
+		   if(!f.eof()){
+			   ConvAMayus(reg); //convertir a mayuscula
+			   p=f.tellg(); //nos dice donde esta el archivo antes de que se mueva
+			   f.seekg(-sizeof(reg),ios::cur); //cur:donde esta ahurita el puntero de archivo
+			   //una vez movido el puntero deja de ser secuencial el objeto
+			   f.write((char*)&reg,sizeof(reg));
+			   f.seekg(p);
+		   }
+	  }
+	  f.close();
+	  ShowMessage("Archivo actualizado");
+  }
+}
+//---------------------------------------------------------------------------
+void ConvAMayusD(RegAlumno &r){
+   byte i,p,n;     // AnsiString cad;
+   AnsiString min="qwertyuiopasdfghjklñzxcvbnm";
+   AnsiString may="QWERTYUIOPASDFGHJKLÑZXCVBNM";
+   //cad="";
+   n=strlen(r.dir);
+   for(i=0; i<n; i++){
+	   p=min.Pos(r.dir[i]);
+	   if(p>0){
+		   //cad=cad+may[p];
+		   r.dir[i]=may[p];
+	   }
+   }
+}
+void __fastcall TForm3::Button5Click(TObject *Sender)
+{
+  RegAlumno reg;  AnsiString nomArch=ruta+nom; Word p;
+  fstream f(nomArch.c_str(),ios::binary|ios::in|ios::out);
+  if(!f.fail()){
+	  while(!f.eof()){
+		  f.read((char*)&reg,sizeof(reg));
+		  if(!f.eof()){
+			  ConvAMayusD(reg);
+			  p=f.tellg(); //lal posicion donde esta el registro actual
+			  //seekg es una funcion de la clase
+			  //utulizada para mover el puntero de lectura dentro de un archivo
+			  f.seekg(-sizeof(reg),ios::cur);//cur donde esta ahurita el puntero
+			  f.write((char*)&reg,sizeof(reg));
+			  f.seekg(p);
+		  }
+	  }
+	  f.close();
+	  ShowMessage("Archivo actualizado");
+  }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm3::Edit1Exit(TObject *Sender)
+{
+  RegAlumno reg;    AnsiString nomArch=ruta+nom;
+  bool hallado;
+  Word codi;
+  fstream f(nomArch.c_str(),ios::in|ios::binary);
+  if(!f.fail()){
+	  hallado=false;
+	  codi=Edit1->Text.ToInt();
+	  while(!f.eof() && !hallado){  //hacemos la busqueda de los datos
+		   f.read((char*)&reg,sizeof(reg));
+		   if(!f.eof()){
+			   hallado=codi==reg.cod;
+		   }
+	  }
+	  if(hallado){
+		   Edit2->Text=reg.nom;
+		   Edit3->Text=reg.dir;
+		   Edit4->Text=reg.fecha.dia;
+		   Edit5->Text=reg.fecha.mes;
+		   Edit6->Text=reg.fecha.año;
+	  }else{
+		/*  Edit2->Text="";
+		  Edit3->Text="";
+		  Edit4->Text="";
+		  Edit5->Text="";
+		  Edit6->Text="";
+		  */
+		  Button1Click(Sender);//limpia la pantallita
+          Edit1->Text=reg.cod;
+      }
+  }
+  f.close();
+}
+//---------------------------------------------------------------------------
+
+/*
+  Actualizacion o modificaion de la estructura Motivos:
+  -Mal diseño -Nuevos campos -campos que ya no son utiles
+  -ampliacion de espacios para algunos rangos
+*/
+void __fastcall TForm3::Button6Click(TObject *Sender)
+{
+  RegAlumno reg; RegAlumnoAnt rAnt;
+  AnsiString nomArch=ruta+nom;
+  AnsiString nuevo=ruta+"nuevo.dat";
+  fstream fi(nomArch.c_str(),ios::binary|ios::in);
+  fstream fo(nuevo.c_str(),ios::binary|ios::out);
+  if(!fi.fail()){
+	  while(!fi.eof()){
+		  fi.read((char*)&rAnt,sizeof(rAnt));
+		  if(!fi.eof()){
+			  reg.cod=rAnt.cod;
+			  strcpy(reg.nom,rAnt.nom);
+			  strcpy(reg.dir,rAnt.dir);
+			  reg.fecha=rAnt.fecha;
+			  reg.telf=0; //campo nuevo
+			  reg.marca=' '; //no borrado *=borrado
+			  fo.write((char*)&reg,sizeof(reg));
+		  }
+	  }
+	  fi.close(); fo.close();
+	  //remove(nomArch.c_str());
+	  //rename(nuevo.c_str(),nomArch.c_str());
+  }
+}
+//---------------------------------------------------------------------------
+

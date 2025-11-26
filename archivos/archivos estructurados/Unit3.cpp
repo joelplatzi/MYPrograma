@@ -16,7 +16,7 @@ __fastcall TForm3::TForm3(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm3::FormCreate(TObject *Sender)
 {        //D:\POO\inf210\archivos estructurados2
-	 ruta="D:\\POO\\inf210\\archivos estructurados2\\";
+	 ruta="D:\\programas\\Ing Shriley 2025 Program2\\MYPrograma\\archivos\\";
 	  nom="Alumnos.dat";
 	  AnsiString nomArch=ruta+nom;
 	  fstream f(nomArch.c_str(),ios::binary|ios::in);
@@ -34,35 +34,37 @@ void __fastcall TForm3::Button1Click(TObject *Sender)
   Edit4->Text="1";
   Edit5->Text="1";
   Edit6->Text="2000";
- // Edit1->Text="0";
+  Edit7->Text="0";
 
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm3::Button2Click(TObject *Sender)  //guardar datos
 {
- //  RegAlumno reg; AnsiString nomArch=ruta+nom;
-  // AnsiString aux;
-  // reg.cod=Edit1->Text.ToInt();
-  // aux=Edit2->Text;
+  /*
+   RegAlumno reg; AnsiString nomArch=ruta+nom;
+   AnsiString aux;
+   reg.cod=Edit1->Text.ToInt();
+   aux=Edit2->Text;
    //strcpy sirve para copiar una cadena de caracteres
-   /*
-    strcpy(destino, origen);
-destino → puntero (o arreglo de char) donde se copiará la cadena.
 
-origen → puntero (o arreglo de char) que contiene la cadena que quieres copiar.
-   */
- //  strcpy(reg.nom,aux.c_str());
-  // aux=Edit3->Text;
-  // strcpy(reg.dir,aux.c_str());
-  // reg.fecha.dia=Edit4->Text.ToInt();
-  // reg.fecha.mes=Edit5->Text.ToInt();
-  // reg.fecha.año=Edit6->Text.ToInt();
-  // fstream f(nomArch.c_str(),ios::binary|ios::app);
+   //	strcpy(destino, origen);
+//destino → puntero (o arreglo de char) donde se copiará la cadena.
+
+//origen → puntero (o arreglo de char) que contiene la cadena que quieres copiar.
+
+   strcpy(reg.nom,aux.c_str());
+   aux=Edit3->Text;
+   strcpy(reg.dir,aux.c_str());
+   reg.fecha.dia=Edit4->Text.ToInt();
+   reg.fecha.mes=Edit5->Text.ToInt();
+   reg.fecha.año=Edit6->Text.ToInt();
+   fstream f(nomArch.c_str(),ios::binary|ios::app);
 //ios::app → abre el archivo para añadir datos al final sin borrar el contenido existente.
-  // f.write((char*)&reg,sizeof(reg));
- //  f.close();
-   //Button1Click(Sender); //limpiar la pantallita
-   //ShowMessage("Datos guardados :");
+   f.write((char*)&reg,sizeof(reg));
+   f.close();
+   Button1Click(Sender); //limpiar la pantallita
+   ShowMessage("Datos guardados :");   */
+
 
    //nuevo para guardar y modificar datos
    RegAlumno reg,regNuevo; AnsiString nomArch=ruta+nom;
@@ -78,6 +80,8 @@ origen → puntero (o arreglo de char) que contiene la cadena que quieres copiar
    regNuevo.fecha.mes=aux.ToInt();
    aux=Edit6->Text;
    regNuevo.fecha.año=aux.ToInt();
+   regNuevo.telf=Edit7->Text.ToInt();
+   regNuevo.marca=0;
  //Hasta aqui copiamos de la pantalla a una variable de memoria
  //nos falta abrir el archivo
    fstream f(nomArch.c_str(),ios::in|ios::out|ios::binary);
@@ -86,7 +90,7 @@ origen → puntero (o arreglo de char) que contiene la cadena que quieres copiar
 	   while(!f.eof() && !hallado){
 			f.read((char*)&reg,sizeof(reg));
 			if(!f.eof()){
-				hallado=reg.cod==regNuevo.cod;
+				hallado=(reg.cod==regNuevo.cod)&&(regNuevo.marca!='*');
 			}
 	   }
 
@@ -95,7 +99,8 @@ origen → puntero (o arreglo de char) que contiene la cadena que quieres copiar
 		   f.write((char*)&regNuevo,sizeof(regNuevo));
 	   }else{ // agregar
 			f.close();
-			fstream f(nomArch.c_str(),ios::app|ios::binary);
+			//fstream f(nomArch.c_str(),ios::app|ios::binary);
+			f.open(nomArch.c_str(),ios::app|ios::binary);
 			f.write((char*)&regNuevo,sizeof(regNuevo));
 
 	   }
@@ -106,8 +111,10 @@ origen → puntero (o arreglo de char) que contiene la cadena que quieres copiar
 	   Edit4->Text="";
 	   Edit5->Text="";
 	   Edit6->Text="";
+       ShowMessage("Datos guardados");
 	   Edit1->SetFocus();  //para que este pidiendo codigo el cursor
    }
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm3::Button3Click(TObject *Sender)
@@ -128,7 +135,7 @@ void __fastcall TForm3::Button3Click(TObject *Sender)
 		 f1.read((char*)&reg,sizeof(reg));
 		 if(!f1.eof()){
 			 linea=reg.cod;
-			 linea=linea+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
+			 linea=linea+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año+","+reg.telf+","+reg.marca;
 			 n=linea.Length();
 			 for(i=1; i<=n; i++){
 				 f2.put(linea[i]);
@@ -154,6 +161,7 @@ void ConvAMayus(RegAlumno &r){
   }
 
 }
+//convierte a mayuscula el nombre
 void __fastcall TForm3::Button4Click(TObject *Sender)
 {
   RegAlumno reg; AnsiString nomArch=ruta+nom; Word i,n,p;
@@ -225,7 +233,7 @@ void __fastcall TForm3::Edit1Exit(TObject *Sender)
 	  while(!f.eof() && !hallado){  //hacemos la busqueda de los datos
 		   f.read((char*)&reg,sizeof(reg));
 		   if(!f.eof()){
-			   hallado=codi==reg.cod;
+			   hallado=(codi==reg.cod)&&(reg.marca!='*');
 		   }
 	  }
 	  if(hallado){
@@ -234,15 +242,107 @@ void __fastcall TForm3::Edit1Exit(TObject *Sender)
 		   Edit4->Text=reg.fecha.dia;
 		   Edit5->Text=reg.fecha.mes;
 		   Edit6->Text=reg.fecha.año;
+		   Edit7->Text=reg.telf;
 	  }else{
 		  Edit2->Text="";
 		  Edit3->Text="";
 		  Edit4->Text="";
 		  Edit5->Text="";
 		  Edit6->Text="";
+		  Edit7->Text="";
+
+		 // Button1Click(Sender);//limpia la pantallita
+		  //Edit1->Text=reg.cod;
       }
   }
   f.close();
+}
+//---------------------------------------------------------------------------
+
+/*
+  Actualizacion o modificaion de la estructura Motivos:
+  -Mal diseño -Nuevos campos -campos que ya no son utiles
+  -ampliacion de espacios para algunos rangos
+*/
+
+void __fastcall TForm3::Button6Click(TObject *Sender)
+{
+  AnsiString nomArch=ruta+nom;
+  AnsiString nuevo=ruta+"nuevo.dat";
+  RegAlumno reg;  RegAlumnoAnt regAnt;
+  fstream f(nomArch.c_str(),ios::in|ios::binary);
+  fstream fo(nuevo.c_str(),ios::binary|ios::out);
+  if(!f.fail()){
+	  while(!f.eof()){
+		   f.read((char*)&regAnt,sizeof(regAnt));
+		   if(!f.eof()){
+			   reg.cod=regAnt.cod;
+			   strcpy(reg.nom,regAnt.nom);
+			   strcpy(reg.dir,regAnt.dir);
+			   reg.fecha=regAnt.fecha;
+                reg.marca='0'; //dato no borrado
+			   reg.telf=0;
+			   fo.write((char*)&reg,sizeof(reg));
+		   }
+	  }
+  }
+  f.close(); fo.close();
+  remove(nomArch.c_str());
+  rename(nuevo.c_str(),nomArch.c_str());
+
+/*
+  RegAlumno reg; RegAlumnoAnt rAnt;
+  AnsiString nomArch=ruta+nom;
+  AnsiString nuevo=ruta+"nuevo.dat";
+  fstream fi(nomArch.c_str(),ios::binary|ios::in);
+  fstream fo(nuevo.c_str(),ios::binary|ios::out);
+  if(!fi.fail()){
+	  while(!fi.eof()){
+		  fi.read((char*)&rAnt,sizeof(rAnt));
+		  if(!fi.eof()){
+			  reg.cod=rAnt.cod;
+			  strcpy(reg.nom,rAnt.nom);
+			  strcpy(reg.dir,rAnt.dir);
+			  reg.fecha=rAnt.fecha;
+			 // reg.telf=0; //campo nuevo
+			  reg.marca=0; //no esta borrado todos los registros *=borrado
+			  fo.write((char*)&reg,sizeof(reg));
+		  }
+	  }
+
+  }
+  fi.close(); fo.close();
+  remove(nomArch.c_str());
+  rename(nuevo.c_str(),nomArch.c_str());      */
+}
+
+//---------------------------------------------------------------------------
+
+//eliminar
+void __fastcall TForm3::Button7Click(TObject *Sender)
+{
+  AnsiString nomArch=ruta+nom;
+  RegAlumno reg; boolean hallado;
+  Cardinal p; Word codi;
+  fstream f(nomArch.c_str(),ios::in|ios::out|ios::binary);
+  if(!f.fail()){
+	  hallado=false; codi=Edit1->Text.ToInt();
+		while(!f.eof()&&!hallado){
+			 f.read((char*)&reg,sizeof(reg));
+			 if(!f.eof()){
+				 hallado=(codi==reg.cod)&&(reg.marca!='*');
+			 }
+		}
+		if(hallado){
+			reg.marca='*';
+			f.seekg(-sizeof(reg),ios::cur);
+			f.write((char*)&reg,sizeof(reg));
+		}
+		Button1Click(Sender);//limpia la pantalla
+		ShowMessage("Datos eliminados");
+		f.close();
+  }
+
 }
 //---------------------------------------------------------------------------
 

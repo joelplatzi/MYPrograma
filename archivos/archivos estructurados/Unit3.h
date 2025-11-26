@@ -14,12 +14,30 @@ struct TFecha {
 	byte mes;
 	Word año;
 }; //4 bytes
-
-struct RegAlumno{
-	Word cod;
+  /*
+struct RegAlumnoAnt{  //estructura antiguo ,antiguo
+	Word cod;  //2 bytes
 	char nom[21];
 	char dir[21];
+	TFecha fecha; //4 bytes
+};   //48  bytes
+*/
+
+struct RegAlumnoAnt{  // estructura  antiguo
+	Word cod;
+   // char marca;
+	char nom[31];
+	char dir[31];
 	TFecha fecha;
+   //	Cardinal telf;
+};   //72 bytes
+struct RegAlumno{
+	Word cod;
+	char marca;
+    char nom[31];
+	char dir[31];
+	TFecha fecha;
+    Cardinal telf;
 };
 class TForm3 : public TForm
 {
@@ -40,6 +58,10 @@ __published:	// IDE-managed Components
 	TButton *Button3;
 	TButton *Button4;
 	TButton *Button5;
+	TButton *Button6;
+	TEdit *Edit7;
+	TLabel *Label6;
+	TButton *Button7;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
@@ -47,6 +69,8 @@ __published:	// IDE-managed Components
 	void __fastcall Button4Click(TObject *Sender);
 	void __fastcall Button5Click(TObject *Sender);
 	void __fastcall Edit1Exit(TObject *Sender);
+	void __fastcall Button6Click(TObject *Sender);
+	void __fastcall Button7Click(TObject *Sender);
 private:	// User declarations
 	AnsiString nom; //nombre del archivo
 	AnsiString ruta; //ruta al archivo

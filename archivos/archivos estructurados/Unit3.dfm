@@ -79,6 +79,19 @@ object Form3: TForm3
     Font.Style = []
     ParentFont = False
   end
+  object Label6: TLabel
+    Left = 16
+    Top = 235
+    Width = 72
+    Height = 23
+    Caption = 'Telefono'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
   object Edit1: TEdit
     Left = 120
     Top = 85
@@ -172,5 +185,31 @@ object Form3: TForm3
     Caption = 'convDirMay'
     TabOrder = 10
     OnClick = Button5Click
+  end
+  object Button6: TButton
+    Left = 565
+    Top = 238
+    Width = 108
+    Height = 25
+    Caption = 'ModifEstruct'
+    TabOrder = 11
+    OnClick = Button6Click
+  end
+  object Edit7: TEdit
+    Left = 120
+    Top = 240
+    Width = 160
+    Height = 21
+    TabOrder = 12
+    Text = 'Edit7'
+  end
+  object Button7: TButton
+    Left = 559
+    Top = 288
+    Width = 97
+    Height = 25
+    Caption = 'Eliminar'
+    TabOrder = 13
+    OnClick = Button7Click
   end
 end
