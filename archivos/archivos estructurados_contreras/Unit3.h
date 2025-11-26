@@ -12,7 +12,7 @@
 struct TFecha {
 	byte dia;
 	byte mes;
-	Word aÃ±o;
+	Word año;
 }; //4 bytes
   /*
 struct RegAlumnoAnt{  //estructura antiguo ,antiguo
@@ -41,6 +41,7 @@ struct RegAlumno{
 };
 struct RegIdxCod{
 	Cardinal pos;
+	Word cod;
 
 };
 class TForm3 : public TForm
@@ -66,6 +67,9 @@ __published:	// IDE-managed Components
 	TEdit *Edit7;
 	TLabel *Label6;
 	TButton *Button7;
+	TButton *Button8;
+	TButton *Button9;
+	TButton *Button10;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
@@ -75,11 +79,16 @@ __published:	// IDE-managed Components
 	void __fastcall Edit1Exit(TObject *Sender);
 	void __fastcall Button6Click(TObject *Sender);
 	void __fastcall Button7Click(TObject *Sender);
+	void __fastcall Button8Click(TObject *Sender);
+	void __fastcall Button9Click(TObject *Sender);
+	void __fastcall Button10Click(TObject *Sender);
 private:	// User declarations
 	AnsiString nom; //nombre del archivo
 	AnsiString ruta; //ruta al archivo
+    AnsiString nomIdxCod;
 public:		// User declarations
 	__fastcall TForm3(TComponent* Owner);
+	//
 };
 
 //---------------------------------------------------------------------------

@@ -212,4 +212,31 @@ object Form3: TForm3
     TabOrder = 13
     OnClick = Button7Click
   end
+  object Button8: TButton
+    Left = 34
+    Top = 336
+    Width = 75
+    Height = 25
+    Caption = 'CreaIdxCod'
+    TabOrder = 14
+    OnClick = Button8Click
+  end
+  object Button9: TButton
+    Left = 115
+    Top = 336
+    Width = 84
+    Height = 25
+    Caption = 'listadoIdxCod'
+    TabOrder = 15
+    OnClick = Button9Click
+  end
+  object Button10: TButton
+    Left = 205
+    Top = 336
+    Width = 84
+    Height = 25
+    Caption = 'OrdenaXidxCod'
+    TabOrder = 16
+    OnClick = Button10Click
+  end
 end

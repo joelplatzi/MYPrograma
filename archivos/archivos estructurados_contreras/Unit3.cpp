@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
@@ -16,8 +16,10 @@ __fastcall TForm3::TForm3(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm3::FormCreate(TObject *Sender)
 {        //D:\POO\inf210\archivos estructurados2
+//D:\programas\Ing Shriley 2025 Program2\MYPrograma\archivos\Archivos2025 ing shirley
 	 ruta="D:\\programas\\Ing Shriley 2025 Program2\\MYPrograma\\archivos\\";
 	  nom="Alumnos.dat";
+	  nomIdxCod="cod.idx";
 	  AnsiString nomArch=ruta+nom;
 	  fstream f(nomArch.c_str(),ios::binary|ios::in);
 	  if(f.fail()){
@@ -343,6 +345,84 @@ void __fastcall TForm3::Button7Click(TObject *Sender)
 		f.close();
   }
 
+}
+//---------------------------------------------------------------------------
+//crea indice por codigo
+void __fastcall TForm3::Button8Click(TObject *Sender)
+{
+   AnsiString nomArch=ruta+nom;
+   RegAlumno reg;
+   RegIdxCod regidx;
+   fstream fi(nomArch.c_str(),ios::in|ios::binary);
+   fstream fo("cod.idx",ios::out|ios::binary);
+   if(!fi.fail()){
+	   while(!fi.eof()){
+			regidx.pos=fi.tellg(); //posicion actual del puntero
+			fi.read((char*)&reg,sizeof(reg));
+			if(!fi.eof()){
+				regidx.cod=reg.cod;
+				fo.write((char*)&regidx,sizeof(regidx));
+			}
+	   }
+   }
+   fi.close(); fo.close();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm3::Button9Click(TObject *Sender)
+{   AnsiString nomArch=ruta+nom;
+	RegAlumno reg;
+	 AnsiString linea;            //pfi codigo , pf nomArch
+   RegIdxCod regidx;
+   fstream fi("cod.idx",ios::in|ios::binary);
+   fstream fd(nomArch.c_str(),ios::in|ios::binary);
+   fstream t("listado2.txt",ios::out);
+   if(!fi.fail()){
+	   while(!fi.eof()){
+			 fi.read((char*)&regidx,sizeof(regidx));
+			 if(!fi.eof()){
+				 fd.seekg(regidx.pos,ios::beg);
+				 fd.read((char*)&reg,sizeof(reg));
+				linea=IntToStr(reg.cod)+","+reg.nom;
+				for(Word i=1; i<=linea.Length();i++){
+					 t.put(linea[i]);
+				}
+				t.put(10);
+			 }
+	   }
+   }
+   fi.close();
+   fd.close();
+   t.close();
+   ShowMessage("Listado generado");
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm3::Button10Click(TObject *Sender)
+{ //Odenamiento del indice codigo Alg.Seletion Sort
+  RegIdxCod r1,r2; long i,j,n;
+  fstream fi(nomIdxCod.c_str(),ios::in|ios::out|ios::binary|ios::ate);
+  if(!fi.fail()){
+	  n=fi.tellg(); n=n-sizeof(r1);
+	  while(n>0){  //mientras haya registros por ordenar
+		 j=i=0; fi.seekg(i); fi.read((char*)&r1,sizeof(r1));
+		 i=i+sizeof(r1);
+		 while(i<=n){//buscando el mayor desde el 2do reg hasta n
+			  fi.seekg(i); fi.read((char*)&r2,sizeof(r2));
+			  if(r2.cod>r1.cod){
+				  r1=r2; j=i;
+			  }
+			  i=i+sizeof(r2);
+		 }
+		 if(j!=n){  //intercambia el ultimo con el mayor
+			fi.seekg(j); fi.write((char*)&r2,sizeof(r2));
+			fi.seekg(n); fi.write((char*)&r1,sizeof(r1));
+		 }
+		 n=n-sizeof(r1);
+	  }
+	  fi.close();
+	  ShowMessage("Indice ordenado");
+  }
 }
 //---------------------------------------------------------------------------
 
