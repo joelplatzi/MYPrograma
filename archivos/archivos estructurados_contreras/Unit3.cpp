@@ -366,9 +366,10 @@ void __fastcall TForm3::Button8Click(TObject *Sender)
 	   }
    }
    fi.close(); fo.close();
+   ShowMessage("indice creado");
 }
 //---------------------------------------------------------------------------
-
+  //listado por codigo
 void __fastcall TForm3::Button9Click(TObject *Sender)
 {   AnsiString nomArch=ruta+nom;
 	RegAlumno reg;
@@ -394,10 +395,40 @@ void __fastcall TForm3::Button9Click(TObject *Sender)
    fi.close();
    fd.close();
    t.close();
-   ShowMessage("Listado generado");
+   ShowMessage("Listado por codigo generado");
 }
 //---------------------------------------------------------------------------
+//codigo menor al final
 
+void __fastcall TForm3::Button16Click(TObject *Sender)
+{
+	RegIdxCod r1,r2; long i,j,n;
+	fstream fi(nomIdxCod.c_str(),ios::in|ios::out|ios::binary|ios::ate);
+	if(!fi.fail()){
+		n=fi.tellg();  n=n-sizeof(r1);
+		while(n>0){
+			j=i=0; fi.seekg(i); fi.read((char*)&r1,sizeof(r1));
+			i=i+sizeof(r1);
+			while(i<=n){  //pregunta si no es eof
+				 fi.seekg(i); fi.read((char*)&r2,sizeof(r2));
+				 if(r2.cod<r1.cod){
+					 r1=r2;
+					 j=i;
+				 }
+				 i=i+sizeof(r2);
+			}
+			if(j!=n){
+			   fi.seekg(j); fi.write((char*)&r2,sizeof(r2));
+			   fi.seekg(n);  fi.write((char*)&r1,sizeof(r1));
+			}
+			n=n-sizeof(r1);
+		}
+		fi.close();
+		ShowMessage("Indice por codigo ordenado");
+	}
+}
+
+ //ordenamiento por codigo lleva el mayor al final
 void __fastcall TForm3::Button10Click(TObject *Sender)
 { //Odenamiento del indice codigo Alg.Seletion Sort
   RegIdxCod r1,r2; long i,j,n;
@@ -425,4 +456,163 @@ void __fastcall TForm3::Button10Click(TObject *Sender)
   }
 }
 //---------------------------------------------------------------------------
+ //crea indice por nombre
+void __fastcall TForm3::Button11Click(TObject *Sender)
+{
+  AnsiString nomArch=ruta+nom;
+  RegIdxNom regidx;
+  RegAlumno reg;
+  fstream fd(nomArch.c_str(),ios::in|ios::binary);
+  fstream fi("idxnom.idx",ios::out|ios::binary);
+  if(!fd.fail()){
+	 while(!fd.eof()){
+		  regidx.pos=fd.tellg();
+		  fd.read((char*)&reg,sizeof(reg));
+		  if(!fd.eof()){
+			  strcpy(regidx.nom,reg.nom);
+              fi.write((char*)&regidx,sizeof(regidx));
+		  }
+	 }
+  }
+  fd.close(); fi.close();
+  ShowMessage("Indice creado");
+}
+//---------------------------------------------------------------------------
+   //listado por nombre
+void __fastcall TForm3::Button12Click(TObject *Sender)
+{  //nomIdxCod="cod.idx";
+   AnsiString linea;
+   RegIdxNom regidx;
+   RegAlumno reg;
+  AnsiString nomIdxNom="idxnom.idx";
+  AnsiString nomArch=ruta+nom;
+  fstream fd(nomArch.c_str(),ios::in|ios::binary);
+  fstream fi(nomIdxNom.c_str(),ios::in|ios::binary);
+  fstream t("listado3.txt",ios::out);
+  if(!fi.fail()){
+	  while(!fi.eof()){
+			fi.read((char*)&regidx,sizeof(regidx));
+			if(!fi.eof()){
+				 fd.seekg(regidx.pos,ios::beg);//se utiliza para mover el puntero de lectura
+				 fd.read((char*)&reg,sizeof(reg));
+				 linea=IntToStr(reg.cod)+","+reg.nom;
+				 for(Word i=1; i<=linea.Length();i++){
+					   t.put(linea[i]);
+				 }
+				 t.put(10);
+			}
+	  }
+	  fd.close(); fi.close(); t.close();
+	  ShowMessage("Listado generado");
+  }
+}
+//---------------------------------------------------------------------------
+
+ //ordena el indice por nombre  mayor al final
+void __fastcall TForm3::Button13Click(TObject *Sender)
+{
+	AnsiString nomIdxNom="idxnom.idx";
+   RegIdxNom r1,r2; Cardinal i,j,n;
+   fstream fi(nomIdxNom.c_str(),ios::in|ios::out|ios::binary|ios::ate);
+   if(!fi.fail()){
+	  n=fi.tellg();  n=n-sizeof(r1);
+	  while(n>0){   //mientras haya registros por ordenar
+		j=i=0; fi.seekg(i); fi.read((char*)&r1,sizeof(r1));
+		i=i+sizeof(r1);
+		while(i<=n){ //buscamos el mayor desde el 2do reg hasta n
+			 fi.seekg(i); fi.read((char*)&r2,sizeof(r2));
+			 if(r2.nom[0]>r1.nom[0]){
+				  r1=r2;
+				  j=i;
+			 }
+			 i=i+sizeof(r2);
+		}
+		if(j!=n){
+			fi.seekg(j); fi.write((char*)&r2,sizeof(r2));
+			fi.seekg(n); fi.write((char*)&r1,sizeof(r1));
+		}
+		n=n-sizeof(r1);
+	  }
+	  fi.close();
+	  ShowMessage("Indice por nombre ordenado");
+   }
+}
+//---------------------------------------------------------------------------
+ //codigo de la fecha que estes en ese rango
+void __fastcall TForm3::Button14Click(TObject *Sender)
+{
+  RegAlumno reg; AnsiString nomArch=ruta+nom;
+  AnsiString linea;   AnsiString nuevo=ruta+"listado7.txt";
+  fstream fd(nomArch.c_str(),ios::in|ios::binary);
+  fstream t(nuevo.c_str(),ios::out);
+  if(!fd.fail()){
+	  while(!fd.eof()){
+		   fd.read((char*)&reg,sizeof(reg));
+		   if(!fd.eof()){
+			  if((2025-reg.fecha.año>20)){
+				   linea=IntToStr(reg.cod)+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
+				   for(Word i=1; i<=linea.Length(); i++){
+						  t.put(linea[i]);
+				   }
+				   t.put(10);
+			  }else if(2025-reg.fecha.año==20){
+				  if(reg.fecha.mes>11){
+                       linea=IntToStr(reg.cod)+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
+					   for(Word i=1; i<=linea.Length(); i++){
+							  t.put(linea[i]);
+					   }
+					   t.put(10);
+				  }else if(reg.fecha.mes==11){
+					  if(reg.fecha.dia>26){
+                          linea=IntToStr(reg.cod)+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
+						   for(Word i=1; i<=linea.Length(); i++){
+								 t.put(linea[i]);
+						   }
+						   t.put(10);
+					  }
+				  }
+              }
+		   }
+	  }
+	  fd.close(); t.close();
+	  ShowMessage("Listado generado");
+  }
+}
+//---------------------------------------------------------------------------
+//algoritmo para convertir el nombre a mayus y el resto a minus
+//y ordena de forma descendente
+//void TForm3::MayusMinus2(AnsiString nomArch)
+//odenar registro de mayor a menor ;menor al final hace este algoritmo
+void __fastcall TForm3::Button15Click(TObject *Sender)
+{
+   AnsiString nomIdxNom="idxnom.idx";
+  RegIdxNom r1,r2; Cardinal i,j,n;
+  fstream fo(nomIdxNom.c_str(),ios::in|ios::out|ios::binary|ios::ate); //ate pone al final eof
+  if(!fo.fail()){
+	  n=fo.tellg(); //donde esta apuntando el puntero
+	  n=n-sizeof(r1);
+	  while(n>0){
+		  j=i=0; fo.seekg(i); fo.read((char*)&r1,sizeof(r1));
+		  i=i+sizeof(r1);
+		  while(i<=n){
+			   fo.seekg(i); fo.read((char*)&r2,sizeof(r2));
+			   if(r2.nom[0]< r1.nom[0]){
+					r1=r2;
+					j=i;
+			   }
+			   i=i+sizeof(r2);
+		  }
+		  if(j!=n){
+			 fo.seekg(j); fo.write((char*)&r2,sizeof(r2));
+			 fo.seekg(n); fo.write((char*)&r1,sizeof(r1));
+		  }
+		  n=n-sizeof(r1);
+	  }
+	  fo.close();
+	  ShowMessage("Indice por nombre ordenado");
+  }
+}
+//---------------------------------------------------------------------------
+
+
 

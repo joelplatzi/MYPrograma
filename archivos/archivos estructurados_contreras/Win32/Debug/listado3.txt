@@ -1,0 +1,8 @@
+700,raquel
+100,roberto
+800,matias
+300,marcos
+200,jose
+400,juan
+500,cristian
+600,ariana

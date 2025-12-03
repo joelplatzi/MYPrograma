@@ -43,7 +43,11 @@ struct RegIdxCod{
 	Cardinal pos;
 	Word cod;
 
-};
+};  //8byte
+struct RegIdxNom{
+	char nom[31];
+	Cardinal pos;
+}; //37 byte
 class TForm3 : public TForm
 {
 __published:	// IDE-managed Components
@@ -70,6 +74,12 @@ __published:	// IDE-managed Components
 	TButton *Button8;
 	TButton *Button9;
 	TButton *Button10;
+	TButton *Button11;
+	TButton *Button12;
+	TButton *Button13;
+	TButton *Button14;
+	TButton *Button15;
+	TButton *Button16;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
@@ -82,13 +92,20 @@ __published:	// IDE-managed Components
 	void __fastcall Button8Click(TObject *Sender);
 	void __fastcall Button9Click(TObject *Sender);
 	void __fastcall Button10Click(TObject *Sender);
+	void __fastcall Button11Click(TObject *Sender);
+	void __fastcall Button12Click(TObject *Sender);
+	void __fastcall Button13Click(TObject *Sender);
+	void __fastcall Button14Click(TObject *Sender);
+	void __fastcall Button15Click(TObject *Sender);
+	void __fastcall Button16Click(TObject *Sender);
 private:	// User declarations
 	AnsiString nom; //nombre del archivo
 	AnsiString ruta; //ruta al archivo
-    AnsiString nomIdxCod;
+	AnsiString nomIdxCod;
 public:		// User declarations
 	__fastcall TForm3(TComponent* Owner);
-	//
+	//long int TForm3::BusBin(Word cod);
+	void MayusMinus2(RegAlumno reg);
 };
 
 //---------------------------------------------------------------------------

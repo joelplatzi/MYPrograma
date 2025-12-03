@@ -351,6 +351,7 @@ void __fastcall TForm3::Button9Click(TObject *Sender)
 	 Edit2->Text=get_ultima_palabra(OpenTextFileDialog1->FileName);
   }
 }
+//convierte las primeras letras a mayusculas
 void MayusMinus(char lin[]){
   Word i,n,p;   bool sw=false;
   AnsiString may="QWERTYUIOPASDFGHJKLÑZXCVBNMÁÉÍÓÚ";
@@ -373,6 +374,7 @@ void MayusMinus(char lin[]){
 	 }
   }
 }
+
 //como hacer un proceso que me cuente las palabras sean mayusculas
 //minusculas mezcladas pero que sea esa palabra mandada por el usuario en c++
 /*Modifica el contenido de un archivo de texto de forma que la primer
@@ -652,6 +654,84 @@ void __fastcall TForm3::Button14Click(TObject *Sender)
    if(OpenTextFileDialog1->Execute()){
 	   ReplaceChar(OpenTextFileDialog1->FileName);
    }
+}
+//---------------------------------------------------------------------------
+//la primera palabra en mayusculas y demas a minusculas
+//proceso para convertir los nombres a mayusculas y el resto a minusculas
+void MayusMinus2(char lin[]){
+   Word i,n,p; boolean hallado=false;
+   AnsiString may="QWERTYUIOPASDFGHJKLÑZXCVBNM";
+   AnsiString min="qwertyuiopasdfghjklñzxcvbnm";
+   n=strlen(lin);
+   for(i=0;i<n; i++){
+	  if(EsPalabra(lin[i])){
+		if(!hallado){
+		   if(EsPalabra(lin[i+1])&& lin[i+1]!=10){
+			  //pone a mayusculas
+			  p=min.Pos(lin[i]);
+			  if(p>0){
+				lin[i]=may[p];
+			  }
+		   }else{
+				p=min.Pos(lin[i]);
+				if(p>0){
+				   lin[i]=may[p];
+				}
+			hallado=true;
+		   }
+		}else{
+			//pone a minusculas
+			p=may.Pos(lin[i]);
+			if(p>0){
+				lin[i]=min[p];
+			}
+		}
+
+
+	  }
+   }
+}
+
+//examen pregu2
+/*
+ hacer un algoritmo para generar un listado ordenado por nombre de mayor a menor,
+ Ademas, en el listado el nombre debera aparecer en mayusculas y la direccion
+ en minusculas
+  LISTADO EXAMEN
+  600,PEDRO,calle2,2/2/2002,356554
+  700,MARTHA,calle5,5/5/2005,265865
+  300,MARIAN,calle3,3/3/2003,321654
+  200,JUAN,calle1,1/1/2001,584116
+  500,JOSE,calle4,4/4/2004,1654843
+*/
+
+void modificar_archivo(AnsiString nom){
+   AnsiString nuevo="D:\\POO\\inf210\\archivos_textos\\SALIDA12.txt";
+   AnsiString linea; char lin[501];  bool hallado=false;
+  fstream f(nom.c_str());
+  ofstream fo(nuevo.c_str());
+  if(!f.fail()){
+	 while(!f.eof()){
+		 f.getline(lin,500);
+		 MayusMinus2(lin);
+		 Word n=strlen(lin);
+		 for(Word i=0;i<n; i++){
+			 fo.put(lin[i]);
+		 }
+		 fo.put(10);
+	 }
+	 f.close();
+     fo.close();
+  }
+}
+
+
+void __fastcall TForm3::Button15Click(TObject *Sender)
+{
+  if(OpenTextFileDialog1->Execute()){
+	  Edit1->Text=OpenTextFileDialog1->FileName;
+	  modificar_archivo(OpenTextFileDialog1->FileName);
+  }
 }
 //---------------------------------------------------------------------------
 

@@ -239,4 +239,58 @@ object Form3: TForm3
     TabOrder = 16
     OnClick = Button10Click
   end
+  object Button11: TButton
+    Left = 34
+    Top = 367
+    Width = 75
+    Height = 25
+    Caption = 'CreaIdxNom'
+    TabOrder = 17
+    OnClick = Button11Click
+  end
+  object Button12: TButton
+    Left = 115
+    Top = 367
+    Width = 84
+    Height = 25
+    Caption = 'listadoIdxNom'
+    TabOrder = 18
+    OnClick = Button12Click
+  end
+  object Button13: TButton
+    Left = 205
+    Top = 367
+    Width = 84
+    Height = 25
+    Caption = 'OrdenaXidxNom'
+    TabOrder = 19
+    OnClick = Button13Click
+  end
+  object Button14: TButton
+    Left = 447
+    Top = 336
+    Width = 82
+    Height = 25
+    Caption = 'listadoMayor21'
+    TabOrder = 20
+    OnClick = Button14Click
+  end
+  object Button15: TButton
+    Left = 504
+    Top = 32
+    Width = 136
+    Height = 25
+    Caption = 'OrdenaIdxNomMayaMen'
+    TabOrder = 21
+    OnClick = Button15Click
+  end
+  object Button16: TButton
+    Left = 504
+    Top = 63
+    Width = 136
+    Height = 25
+    Caption = 'OrdenaIdxCodMayaMen'
+    TabOrder = 22
+    OnClick = Button16Click
+  end
 end

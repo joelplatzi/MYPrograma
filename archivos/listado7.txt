@@ -1,0 +1,7 @@
+200,jose,calle1,1/1/2000
+400,juan,calle2,2/2/2001
+300,marcos,calle4,1/1/2004
+500,cristian,calle5,4/4/2001
+100,roberto,calle5,4/4/1999
+800,matias,calle6,28/11/2005
+700,raquel,calle8,27/11/2005

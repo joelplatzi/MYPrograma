@@ -161,6 +161,15 @@ object Form3: TForm3
     TabOrder = 16
     OnClick = Button14Click
   end
+  object Button15: TButton
+    Left = 320
+    Top = 280
+    Width = 75
+    Height = 25
+    Caption = 'Button15'
+    TabOrder = 17
+    OnClick = Button15Click
+  end
   object OpenTextFileDialog1: TOpenTextFileDialog
     Left = 240
     Top = 16
