@@ -479,7 +479,7 @@ void __fastcall TForm3::Button11Click(TObject *Sender)
   ShowMessage("Indice creado");
 }
 //---------------------------------------------------------------------------
-   //listado por nombre  del regIdx hace el llamado asi ahorra memoria y tiempo
+   //listado por nombre
 void __fastcall TForm3::Button12Click(TObject *Sender)
 {  //nomIdxCod="cod.idx";
    AnsiString linea;

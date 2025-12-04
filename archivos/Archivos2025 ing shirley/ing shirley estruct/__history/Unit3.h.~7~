@@ -9,7 +9,6 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Grids.hpp>
 #include <Vcl.Mask.hpp>
-#include <Vcl.Menus.hpp>
 #include <fstream>
 //---------------------------------------------------------------------------
 struct TFecha{
@@ -28,26 +27,6 @@ struct RegIdxNom{
 	char nom[21];
 	Cardinal pos;
 };
-
-//Registro de Datos (canciones.dat):
-struct RegCancion {
-    int id;             // 4 bytes
-    char titulo[30];    // 30 bytes
-    char artista[20];   // 20 bytes
-	int genero;       // 4 bytes (segundos)
-};
-
- //Registro de Índice (id.idx y artista.idx):
-struct RegIdxCodCancion {
-    int clave;          // Campo Clave (ID)
-    long direccion;     // Byte offset en el .dat
-};
-
-struct RegIdxNomCancion {
-    char clave[20];     // Campo Clave (Artista)
-	long direccion;     // Byte offset en el .dat    10
-
-};  //24 bytes
 class TForm3 : public TForm
 {
 __published:	// IDE-managed Components
@@ -74,24 +53,6 @@ __published:	// IDE-managed Components
 	TButton *Button11;
 	TButton *Button12;
 	TEdit *Edit4;
-	TMainMenu *MainMenu1;
-	TMenuItem *cancionesdat1;
-	TMenuItem *guardarcanciones1;
-	TMenuItem *listadoCanciondat1;
-	TMenuItem *MostrarStringGrid11;
-	TMenuItem *idxCod1;
-	TMenuItem *idxNombre1;
-	TMenuItem *creaIdxNombre1;
-	TMenuItem *OrdenaIdxNombre1;
-	TMenuItem *listado1;
-	TMenuItem *MostrarIdxStringGrid1;
-	TMenuItem *direccion1;
-	TMenuItem *mostrar1;
-	TMenuItem *mostrarIdxStringGrid2;
-	TMenuItem *listadoIdxPorNomBusqueda1;
-	TMenuItem *buscarDCancionesdatXidx1;
-	TMenuItem *buscandoporgenero1;
-	TMenuItem *listadoGenero1;
 	void __fastcall Button1Click(TObject *Sender);  //guardar
 	void __fastcall Button2Click(TObject *Sender);  //eliminar
 	void __fastcall Button3Click(TObject *Sender);  //limpiar
@@ -103,31 +64,14 @@ __published:	// IDE-managed Components
 	void __fastcall Button10Click(TObject *Sender);
 	void __fastcall Button11Click(TObject *Sender);
 	void __fastcall Button12Click(TObject *Sender);
-   //	void __fastcall Edit2Exit(TObject *Sender);
-	void __fastcall guardarcanciones1Click(TObject *Sender);
-	void __fastcall listadoCanciondat1Click(TObject *Sender);
-	void __fastcall MostrarStringGrid11Click(TObject *Sender);
-	void __fastcall creaIdxNombre1Click(TObject *Sender);
-	void __fastcall OrdenaIdxNombre1Click(TObject *Sender);
-	void __fastcall listado1Click(TObject *Sender);
-	void __fastcall MostrarIdxStringGrid1Click(TObject *Sender);
-	void __fastcall direccion1Click(TObject *Sender);
-	void __fastcall mostrar1Click(TObject *Sender);
-	void __fastcall mostrarIdxStringGrid2Click(TObject *Sender);
-	void __fastcall listadoIdxPorNomBusqueda1Click(TObject *Sender);
-	void __fastcall buscarDCancionesdatXidx1Click(TObject *Sender);
-	void __fastcall buscandoporgenero1Click(TObject *Sender);
-	void __fastcall listadoGenero1Click(TObject *Sender);
-  //	void __fastcall FormCreate(TObject *Sender);   //mostrar
+	void __fastcall Edit2Exit(TObject *Sender);   //mostrar
 private:	// User declarations
    AnsiString ruta;
    AnsiString nom;
-   AnsiString cancion;
 public:		// User declarations
 	__fastcall TForm3(TComponent* Owner);
    void ordenar(AnsiString ArchIdx);
    Cardinal strchar(char x);
-   AnsiString idxnomC;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm3 *Form3;

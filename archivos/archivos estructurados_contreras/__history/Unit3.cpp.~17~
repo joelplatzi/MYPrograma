@@ -119,7 +119,6 @@ void __fastcall TForm3::Button2Click(TObject *Sender)  //guardar datos
 
 }
 //---------------------------------------------------------------------------
-//generar listado de alumnos.dat
 void __fastcall TForm3::Button3Click(TObject *Sender)
 {
    AnsiString nomArch=ruta+nom;
@@ -158,7 +157,7 @@ void ConvAMayus(RegAlumno &r){
   n=strlen(r.nom);
   for(i=0; i<n; i++){
 	  p=min.Pos(r.nom[i]);
-	  if(p>0){
+      if(p>0){
 		  r.nom[i]=may[p];
 	  }
   }
@@ -471,7 +470,7 @@ void __fastcall TForm3::Button11Click(TObject *Sender)
 		  fd.read((char*)&reg,sizeof(reg));
 		  if(!fd.eof()){
 			  strcpy(regidx.nom,reg.nom);
-			  fi.write((char*)&regidx,sizeof(regidx));
+              fi.write((char*)&regidx,sizeof(regidx));
 		  }
 	 }
   }
@@ -479,7 +478,7 @@ void __fastcall TForm3::Button11Click(TObject *Sender)
   ShowMessage("Indice creado");
 }
 //---------------------------------------------------------------------------
-   //listado por nombre  del regIdx hace el llamado asi ahorra memoria y tiempo
+   //listado por nombre
 void __fastcall TForm3::Button12Click(TObject *Sender)
 {  //nomIdxCod="cod.idx";
    AnsiString linea;

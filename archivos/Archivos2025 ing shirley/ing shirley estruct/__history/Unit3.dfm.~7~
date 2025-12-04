@@ -279,28 +279,8 @@ object Form3: TForm3
         OnClick = direccion1Click
       end
       object mostrar1: TMenuItem
-        Caption = 'crearIdxPorNombre'
+        Caption = 'mostrar'
         OnClick = mostrar1Click
-      end
-      object mostrarIdxStringGrid2: TMenuItem
-        Caption = 'mostrarIdxStringGrid'
-        OnClick = mostrarIdxStringGrid2Click
-      end
-      object listadoIdxPorNomBusqueda1: TMenuItem
-        Caption = 'listadoIdxPorNomBusqueda'
-        OnClick = listadoIdxPorNomBusqueda1Click
-      end
-      object buscarDCancionesdatXidx1: TMenuItem
-        Caption = 'buscarDCanciones.datXidx'
-        OnClick = buscarDCancionesdatXidx1Click
-      end
-      object buscandoporgenero1: TMenuItem
-        Caption = 'buscando por genero'
-        OnClick = buscandoporgenero1Click
-      end
-      object listadoGenero1: TMenuItem
-        Caption = 'listadoGenero'
-        OnClick = listadoGenero1Click
       end
     end
   end

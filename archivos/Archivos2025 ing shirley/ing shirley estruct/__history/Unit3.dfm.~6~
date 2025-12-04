@@ -10,7 +10,6 @@ object Form3: TForm3
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  Menu = MainMenu1
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
@@ -41,8 +40,8 @@ object Form3: TForm3
     ParentFont = False
   end
   object Label3: TLabel
-    Left = 65
-    Top = 136
+    Left = 72
+    Top = 96
     Width = 57
     Height = 19
     Caption = 'Nombre'
@@ -54,11 +53,11 @@ object Form3: TForm3
     ParentFont = False
   end
   object Label4: TLabel
-    Left = 64
-    Top = 96
-    Width = 36
+    Left = 72
+    Top = 136
+    Width = 65
     Height = 19
-    Caption = 'titulo'
+    Caption = 'Direcci'#243'n'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -95,6 +94,7 @@ object Form3: TForm3
     Height = 21
     TabOrder = 1
     Text = 'Edit2'
+    OnExit = Edit2Exit
   end
   object Edit3: TEdit
     Left = 176
@@ -234,74 +234,5 @@ object Form3: TForm3
     Height = 21
     TabOrder = 17
     Text = '0'
-  end
-  object MainMenu1: TMainMenu
-    Left = 472
-    Top = 168
-    object cancionesdat1: TMenuItem
-      Caption = 'canciones.dat'
-      object guardarcanciones1: TMenuItem
-        Caption = 'guardarcanciones'
-        OnClick = guardarcanciones1Click
-      end
-      object listadoCanciondat1: TMenuItem
-        Caption = 'listadoCancion.dat'
-        OnClick = listadoCanciondat1Click
-      end
-      object MostrarStringGrid11: TMenuItem
-        Caption = 'MostrarStringGrid1'
-        OnClick = MostrarStringGrid11Click
-      end
-    end
-    object idxCod1: TMenuItem
-      Caption = 'idxCod'
-    end
-    object idxNombre1: TMenuItem
-      Caption = 'idxNombre'
-      object creaIdxNombre1: TMenuItem
-        Caption = 'creaIdxNombre'
-        OnClick = creaIdxNombre1Click
-      end
-      object OrdenaIdxNombre1: TMenuItem
-        Caption = 'OrdenaIdxNombre'
-        OnClick = OrdenaIdxNombre1Click
-      end
-      object listado1: TMenuItem
-        Caption = 'listado'
-        OnClick = listado1Click
-      end
-      object MostrarIdxStringGrid1: TMenuItem
-        Caption = 'MostrarIdxStringGrid'
-        OnClick = MostrarIdxStringGrid1Click
-      end
-      object direccion1: TMenuItem
-        Caption = 'direccion'
-        OnClick = direccion1Click
-      end
-      object mostrar1: TMenuItem
-        Caption = 'crearIdxPorNombre'
-        OnClick = mostrar1Click
-      end
-      object mostrarIdxStringGrid2: TMenuItem
-        Caption = 'mostrarIdxStringGrid'
-        OnClick = mostrarIdxStringGrid2Click
-      end
-      object listadoIdxPorNomBusqueda1: TMenuItem
-        Caption = 'listadoIdxPorNomBusqueda'
-        OnClick = listadoIdxPorNomBusqueda1Click
-      end
-      object buscarDCancionesdatXidx1: TMenuItem
-        Caption = 'buscarDCanciones.datXidx'
-        OnClick = buscarDCancionesdatXidx1Click
-      end
-      object buscandoporgenero1: TMenuItem
-        Caption = 'buscando por genero'
-        OnClick = buscandoporgenero1Click
-      end
-      object listadoGenero1: TMenuItem
-        Caption = 'listadoGenero'
-        OnClick = listadoGenero1Click
-      end
-    end
   end
 end

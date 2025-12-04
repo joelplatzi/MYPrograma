@@ -652,7 +652,6 @@ void __fastcall TForm3::listado1Click(TObject *Sender)
  1=regeton
  2=pop
  3=salsa
- 4=
 */
 //---------------------------------------------------------------------------
 
@@ -660,111 +659,6 @@ void __fastcall TForm3::listado1Click(TObject *Sender)
 void __fastcall TForm3::MostrarIdxStringGrid1Click(TObject *Sender)
 {
 	AnsiString nomArch="idxnomC.idx";
-	AnsiString datos[] = {"DIRECCION", "ARTISTA","GENERO"};
-	byte c = 0;
-	int n = sizeof(datos) / sizeof(datos[0]);
-	RegIdxNomCancion reg;
-	fstream fi(nomArch.c_str(), ios::in | ios::binary);
-	if ( !fi.fail() ) {
-		fi.read((char*)&reg, sizeof(reg));
-		while( !fi.eof()) {
-		  c++;
-		  StringGrid1->Cells[0][c] = reg.direccion;
-		  StringGrid1->Cells[1][c] = reg.clave;
-		//  StringGrid1->Cells[2][c] = reg.genero;
-		  //StringGrid1->Cells[1][c] = reg.direccion;
-		  fi.read((char*)&reg, sizeof(reg));
-		};
-	}
-	fi.close();
-	for (byte i = 0; i < n; i++) {
-	   StringGrid1->Cells[i][0] = datos[i];
-	}
-//	delete[] datos;
-	StringGrid1->ColCount = n;
-	StringGrid1->RowCount = c+1;
-}
-//---------------------------------------------------------------------------
-//convertir a minuscula
-char ToLower(char x){
-   AnsiString may="QWERTYUIOPASDFGHJKLÑZXCVBNM";
-   AnsiString min="qwertyuiopasdfghjklñzxcvbnm";
-   byte p=may.Pos(x);
-   if(p==0)
-	  return x;
-   else
-	 return min[p];
-}
-//crear un algoritmo para mostrar si existe ese genero tipo AnsiString
-bool compare(AnsiString nombre,char clave[20]){
-   AnsiString name; char x;
-   byte i=0;
-   while(i<21 && (i+1<=nombre.Length()) && ToLower(nombre[i+1]==ToLower(clave[i]))){
-		i++;
-   }
-   return (i+1>nombre.Length());
-}
-//compara digitos
-bool compare2(byte genero2,int genero){
-   char x;  AnsiString n=IntToStr(genero2);
-   byte i=0;
-
-   return genero2==genero;
-}
- //devuelve el codigo del nombre a buscar
-Word buscarNombre(AnsiString nombrefile,AnsiString buscarNombre){
-	fstream fa(nombrefile.c_str(),ios::in);
-	RegIdxNomCancion reg;
-	Word codi=0;
-	if(!fa.fail()){
-	//AnsiString buscarNombre=InputBox("ingrese","nombre","");
-		fa.read((char*)&reg,sizeof(reg));
-		while(!fa.eof() && !(compare(buscarNombre,reg.clave))){
-		   fa.read((char*)&reg,sizeof(reg));
-		}
-		if(!fa.eof())
-		  codi=reg.direccion;
-		fa.close();
-	}
-	return codi;
-}
-void __fastcall TForm3::direccion1Click(TObject *Sender)
-{
-  Word salida=buscarNombre("idxnomC.idx",Edit1->Text);
-  ShowMessage(IntToStr(salida));
-}
-//---------------------------------------------------------------------------
-  //buscando nombre  de canciones.dat
-void encontrarNombre(AnsiString nombrefile,AnsiString nombre){
-  RegIdxNomCancion regidx;
-  RegCancion reg;
-  fstream fd(nombrefile.c_str(),ios::in|ios::binary);
-  fstream fi("idx2C.idx",ios::out|ios::binary);
-  if(!fd.fail()){
-	 while(!fd.eof()){
-		  regidx.direccion=fd.tellg();
-		  fd.read((char*)&reg,sizeof(reg));
-		  if(!fd.eof() && (compare(nombre,reg.artista))){
-			  strcpy(regidx.clave,reg.artista);
-			  fi.write((char*)&regidx,sizeof(regidx));
-		  }
-	 }
-  }
-  fd.close(); fi.close();
-  ShowMessage("Indice creado");
-}
-
-//crea el incice buscando un nombre y lo guarda
-void __fastcall TForm3::mostrar1Click(TObject *Sender)
-{
-  AnsiString nomArch=ruta+cancion;
-  encontrarNombre(nomArch,Edit1->Text);
-}
-//---------------------------------------------------------------------------
- //mostrando el indice sobre indice
-void __fastcall TForm3::mostrarIdxStringGrid2Click(TObject *Sender)
-{
-		AnsiString nomArch="idx2C.idx";
 	AnsiString datos[] = {"DIRECCION", "ARTISTA"};
 	byte c = 0;
 	int n = sizeof(datos) / sizeof(datos[0]);
@@ -790,83 +684,61 @@ void __fastcall TForm3::mostrarIdxStringGrid2Click(TObject *Sender)
 	StringGrid1->RowCount = c+1;
 }
 //---------------------------------------------------------------------------
- //creamos un listado de indice sobre indice indice
-void __fastcall TForm3::listadoIdxPorNomBusqueda1Click(TObject *Sender)
-{
-	AnsiString linea;
-   RegIdxNomCancion regidx;
-   RegCancion reg;
-  AnsiString nomIdxNom="idx2C.idx";
-  AnsiString nomArch=ruta+cancion;
-  fstream fd(nomArch.c_str(),ios::in|ios::binary);
-  fstream fi(nomIdxNom.c_str(),ios::in|ios::binary);
-  fstream t("listado30.txt",ios::out);
-  if(!fi.fail()){
-	  while(!fi.eof()){
-			fi.read((char*)&regidx,sizeof(regidx));
-			if(!fi.eof()){
-				 fd.seekg(regidx.direccion,ios::beg);//se utiliza para mover el puntero de lectura
-				 fd.read((char*)&reg,sizeof(reg));
-				 linea=IntToStr(reg.id)+","+reg.artista+","+IntToStr(reg.genero);
-				 for(Word i=1; i<=linea.Length();i++){
-					   t.put(linea[i]);
-				 }
-				 t.put(10);
-			}
-	  }
-	  fd.close(); fi.close(); t.close();
-	  ShowMessage("Listado generado");
-  }
+//convertir a minuscula
+char ToLower(char x){
+   AnsiString may="QWERTYUIOPASDFGHJKLÑZXCVBNM";
+   AnsiString min="qwertyuiopasdfghjklñzxcvbnm";
+   byte p=may.Pos(x);
+   if(p==0)
+	  return x;
+   else
+	 return min[p];
 }
-//---------------------------------------------------------------------------
-//creando sobre el genero
+//crear un algoritmo para mostrar si existe ese genero
+bool compare(AnsiString nombre,char clave[20]){
+   AnsiString name; char x;
+   byte i=0;
+   while(i<21 && (i+1<=nombre.Length()) && ToLower(nombre[i+1]==ToLower(clave[i]))){
+		i++;
+   }
+   return (i+1>nombre.Length());
+}
+ //devuelve el codigo del nombre a buscar
+Word buscarNombre(AnsiString nombrefile,AnsiString buscarNombre){
+	fstream fa(nombrefile.c_str(),ios::in);
+	RegIdxNomCancion reg;
+	Word codi=0;
+	if(!fa.fail()){
+	//AnsiString buscarNombre=InputBox("ingrese","nombre","");
+		fa.read((char*)&reg,sizeof(reg));
+		while(!fa.eof() && !(compare(buscarNombre,reg.clave))){
+		   fa.read((char*)&reg,sizeof(reg));
+		}
+		if(!fa.eof())
+		  codi=reg.direccion;
+		fa.close();
+	}
+	return codi;
+}
 
 
-void __fastcall TForm3::buscarDCancionesdatXidx1Click(TObject *Sender)
+void __fastcall TForm3::direccion1Click(TObject *Sender)
 {
-	AnsiString nomArch=ruta+cancion;
-	AnsiString nuevo="idx2C.idx";
-	RegIdxNomCancion regidx;
-	AnsiString datos[] = {"DIRECCION", "ARTISTA", "GENERO"};
-	byte c = 0;
-	int n = sizeof(datos) / sizeof(datos[0]);
-	RegCancion reg;
-	fstream fi(nomArch.c_str(), ios::in | ios::binary);
-	fstream fd(nuevo.c_str(),ios::in|ios::binary);
-	if ( !fd.fail() ) {
-	   //	fd.seekg(regidx.direccion,ios::beg);
-		fd.read((char*)&regidx, sizeof(regidx));
-		while( !fd.eof()) {
-		   fi.seekg(regidx.direccion,ios::beg);
-		   fi.read((char*)&reg,sizeof(reg));
-		  c++;
-		  StringGrid1->Cells[0][c] = reg.id;
-		  StringGrid1->Cells[1][c] = reg.artista;
-		  StringGrid1->Cells[2][c] = reg.genero;
-		//  StringGrid1->Cells[3][c] = reg.genero;
-		  fd.read((char*)&regidx, sizeof(regidx));
-		};
-	}
-	fi.close();
-	for (byte i = 0; i < n; i++) {
-	   StringGrid1->Cells[i][0] = datos[i];
-	}
-//	delete[] datos;
-	StringGrid1->ColCount = n;
-	StringGrid1->RowCount = c+1;
+  Word salida=buscarNombre("idxnomC.idx",Edit1->Text);
+  ShowMessage(IntToStr(salida));
 }
 //---------------------------------------------------------------------------
-//buscando por genero =crear idx nuevo por idx
-void buscando_genero(AnsiString nombrefile,int genero){
-   RegIdxNomCancion regidx;
+
+void encontrarNombre(AnsiString nombrefile,AnsiString nombre){
+  RegIdxNomCancion regidx;
   RegCancion reg;
   fstream fd(nombrefile.c_str(),ios::in|ios::binary);
-  fstream fi("idx3G.idx",ios::out|ios::binary);
+  fstream fi("idx2C.idx",ios::out|ios::binary);
   if(!fd.fail()){
 	 while(!fd.eof()){
 		  regidx.direccion=fd.tellg();
 		  fd.read((char*)&reg,sizeof(reg));
-		  if(!fd.eof() && (genero==reg.genero)){
+		  if(!fd.eof() && (compare(nombre,reg.artista))){
 			  strcpy(regidx.clave,reg.artista);
 			  fi.write((char*)&regidx,sizeof(regidx));
 		  }
@@ -875,41 +747,27 @@ void buscando_genero(AnsiString nombrefile,int genero){
   fd.close(); fi.close();
   ShowMessage("Indice creado");
 }
- //(compare2(genero,reg.genero))
-void __fastcall TForm3::buscandoporgenero1Click(TObject *Sender)
+void __fastcall TForm3::mostrar1Click(TObject *Sender)
 {
-  AnsiString nomArch=ruta+cancion;
-  buscando_genero(nomArch,Edit1->Text.ToInt());
+  encontrarNombre("canciones.dat",Edit1->Text);
 }
 //---------------------------------------------------------------------------
-//listado del incide
-
-void __fastcall TForm3::listadoGenero1Click(TObject *Sender)
-{
-  AnsiString linea;
-   RegIdxNomCancion regidx;
-   RegCancion reg;
-  AnsiString nomIdxNom="idx3G.idx";
+/*
   AnsiString nomArch=ruta+cancion;
+  RegIdxNomCancion regidx;
+  RegCancion reg;
   fstream fd(nomArch.c_str(),ios::in|ios::binary);
-  fstream fi(nomIdxNom.c_str(),ios::in|ios::binary);
-  fstream t("listado33.txt",ios::out);
-  if(!fi.fail()){
-	  while(!fi.eof()){
-			fi.read((char*)&regidx,sizeof(regidx));
-			if(!fi.eof()){
-				 fd.seekg(regidx.direccion,ios::beg);//se utiliza para mover el puntero de lectura
-				 fd.read((char*)&reg,sizeof(reg));
-				 linea=IntToStr(reg.id)+","+reg.artista+","+IntToStr(reg.genero);
-				 for(Word i=1; i<=linea.Length();i++){
-					   t.put(linea[i]);
-				 }
-				 t.put(10);
-			}
-	  }
-	  fd.close(); fi.close(); t.close();
-	  ShowMessage("Listado generado");
+  fstream fi("idxnomC.idx",ios::out|ios::binary);
+  if(!fd.fail()){
+	 while(!fd.eof()){
+		  regidx.direccion=fd.tellg();
+		  fd.read((char*)&reg,sizeof(reg));
+		  if(!fd.eof()){
+			  strcpy(regidx.clave,reg.artista);
+			  fi.write((char*)&regidx,sizeof(regidx));
+		  }
+	 }
   }
-}
-//---------------------------------------------------------------------------
-
+  fd.close(); fi.close();
+  ShowMessage("Indice creado");
+*/

@@ -36,7 +36,6 @@ struct RegCancion {
     char artista[20];   // 20 bytes
 	int genero;       // 4 bytes (segundos)
 };
-
  //Registro de Índice (id.idx y artista.idx):
 struct RegIdxCodCancion {
     int clave;          // Campo Clave (ID)
@@ -47,7 +46,7 @@ struct RegIdxNomCancion {
     char clave[20];     // Campo Clave (Artista)
 	long direccion;     // Byte offset en el .dat    10
 
-};  //24 bytes
+};  //30bytes
 class TForm3 : public TForm
 {
 __published:	// IDE-managed Components
@@ -87,11 +86,6 @@ __published:	// IDE-managed Components
 	TMenuItem *MostrarIdxStringGrid1;
 	TMenuItem *direccion1;
 	TMenuItem *mostrar1;
-	TMenuItem *mostrarIdxStringGrid2;
-	TMenuItem *listadoIdxPorNomBusqueda1;
-	TMenuItem *buscarDCancionesdatXidx1;
-	TMenuItem *buscandoporgenero1;
-	TMenuItem *listadoGenero1;
 	void __fastcall Button1Click(TObject *Sender);  //guardar
 	void __fastcall Button2Click(TObject *Sender);  //eliminar
 	void __fastcall Button3Click(TObject *Sender);  //limpiar
@@ -113,11 +107,6 @@ __published:	// IDE-managed Components
 	void __fastcall MostrarIdxStringGrid1Click(TObject *Sender);
 	void __fastcall direccion1Click(TObject *Sender);
 	void __fastcall mostrar1Click(TObject *Sender);
-	void __fastcall mostrarIdxStringGrid2Click(TObject *Sender);
-	void __fastcall listadoIdxPorNomBusqueda1Click(TObject *Sender);
-	void __fastcall buscarDCancionesdatXidx1Click(TObject *Sender);
-	void __fastcall buscandoporgenero1Click(TObject *Sender);
-	void __fastcall listadoGenero1Click(TObject *Sender);
   //	void __fastcall FormCreate(TObject *Sender);   //mostrar
 private:	// User declarations
    AnsiString ruta;
