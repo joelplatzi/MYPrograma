@@ -509,7 +509,7 @@ void __fastcall TForm3::Button12Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
- //ordena el indice por nombre  mayor al final
+ //ordena el indice por nombre  mayor al final   menor a mayor
 void __fastcall TForm3::Button13Click(TObject *Sender)
 {
 	AnsiString nomIdxNom="idxnom.idx";
@@ -558,21 +558,21 @@ void __fastcall TForm3::Button14Click(TObject *Sender)
 				   t.put(10);
 			  }else if(2025-reg.fecha.año==20){
 				  if(reg.fecha.mes>11){
-                       linea=IntToStr(reg.cod)+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
+					   linea=IntToStr(reg.cod)+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
 					   for(Word i=1; i<=linea.Length(); i++){
 							  t.put(linea[i]);
 					   }
 					   t.put(10);
 				  }else if(reg.fecha.mes==11){
 					  if(reg.fecha.dia>26){
-                          linea=IntToStr(reg.cod)+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
+						  linea=IntToStr(reg.cod)+","+reg.nom+","+reg.dir+","+reg.fecha.dia+"/"+reg.fecha.mes+"/"+reg.fecha.año;
 						   for(Word i=1; i<=linea.Length(); i++){
 								 t.put(linea[i]);
 						   }
 						   t.put(10);
 					  }
 				  }
-              }
+			  }
 		   }
 	  }
 	  fd.close(); t.close();

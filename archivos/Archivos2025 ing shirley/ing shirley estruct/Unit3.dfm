@@ -143,14 +143,14 @@ object Form3: TForm3
   end
   object StringGrid1: TStringGrid
     Left = 48
-    Top = 307
+    Top = 280
     Width = 457
     Height = 153
     TabOrder = 7
   end
   object Button4: TButton
-    Left = 54
-    Top = 265
+    Left = 64
+    Top = 249
     Width = 75
     Height = 25
     Caption = 'Mostrar'
@@ -159,7 +159,7 @@ object Form3: TForm3
   end
   object Button5: TButton
     Left = 168
-    Top = 265
+    Top = 249
     Width = 83
     Height = 25
     Caption = 'Actualizar May'
@@ -167,7 +167,7 @@ object Form3: TForm3
   end
   object Button6: TButton
     Left = 296
-    Top = 265
+    Top = 249
     Width = 75
     Height = 25
     Caption = 'Actualizar Min'

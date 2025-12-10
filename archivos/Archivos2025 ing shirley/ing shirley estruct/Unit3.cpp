@@ -820,8 +820,6 @@ void __fastcall TForm3::listadoIdxPorNomBusqueda1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 //creando sobre el genero
-
-
 void __fastcall TForm3::buscarDCancionesdatXidx1Click(TObject *Sender)
 {
 	AnsiString nomArch=ruta+cancion;

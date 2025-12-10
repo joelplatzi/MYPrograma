@@ -1,0 +1,135 @@
+object Form3: TForm3
+  Left = 0
+  Top = 0
+  Caption = 'Form3'
+  ClientHeight = 448
+  ClientWidth = 654
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 232
+    Top = 32
+    Width = 60
+    Height = 13
+    Caption = 'Alumnos.dat'
+  end
+  object Label2: TLabel
+    Left = 32
+    Top = 80
+    Width = 33
+    Height = 13
+    Caption = 'Codigo'
+  end
+  object Label3: TLabel
+    Left = 32
+    Top = 120
+    Width = 36
+    Height = 13
+    Caption = 'nombre'
+  end
+  object Label4: TLabel
+    Left = 32
+    Top = 168
+    Width = 42
+    Height = 13
+    Caption = 'direccion'
+  end
+  object Label5: TLabel
+    Left = 32
+    Top = 216
+    Width = 27
+    Height = 13
+    Caption = 'fecha'
+  end
+  object Label6: TLabel
+    Left = 32
+    Top = 264
+    Width = 40
+    Height = 13
+    Caption = 'telefono'
+  end
+  object Edit1: TEdit
+    Left = 128
+    Top = 77
+    Width = 121
+    Height = 21
+    TabOrder = 0
+    Text = '0'
+  end
+  object Edit2: TEdit
+    Left = 128
+    Top = 117
+    Width = 305
+    Height = 21
+    TabOrder = 1
+    Text = 'Edit1'
+  end
+  object Edit3: TEdit
+    Left = 128
+    Top = 165
+    Width = 297
+    Height = 21
+    TabOrder = 2
+    Text = 'Edit1'
+  end
+  object Edit4: TEdit
+    Left = 128
+    Top = 213
+    Width = 41
+    Height = 21
+    TabOrder = 3
+    Text = 'Edit1'
+  end
+  object Edit5: TEdit
+    Left = 175
+    Top = 213
+    Width = 41
+    Height = 21
+    TabOrder = 4
+    Text = 'Edit1'
+  end
+  object Edit6: TEdit
+    Left = 222
+    Top = 213
+    Width = 41
+    Height = 21
+    TabOrder = 5
+    Text = 'Edit1'
+  end
+  object Edit7: TEdit
+    Left = 128
+    Top = 261
+    Width = 135
+    Height = 21
+    TabOrder = 6
+    Text = '0'
+  end
+  object MainMenu1: TMainMenu
+    Left = 520
+    Top = 264
+    object alumnosdat1: TMenuItem
+      Caption = 'alumnos.dat'
+      object guardar1: TMenuItem
+        Caption = 'guardar'
+        OnClick = guardar1Click
+      end
+      object limpiar1: TMenuItem
+        Caption = 'limpiar'
+        OnClick = limpiar1Click
+      end
+      object listado1: TMenuItem
+        Caption = 'listado'
+        OnClick = listado1Click
+      end
+    end
+  end
+end

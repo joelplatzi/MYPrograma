@@ -1,0 +1,8 @@
+200,JUAN,calle1,2/1/2001
+300,MARIAN,calle3,4/3/2003
+405,PEDRO,calle2,3/2/2002
+505,JOSE,calle4,5/4/2004
+705,MARTHA,calle5,6/5/2005
+100,raquel,calle6,2/1/2000
+610,carla,calle7,1/2/2001
+800,crisitan,calle9,1/1/2003

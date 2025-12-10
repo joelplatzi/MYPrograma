@@ -3,10 +3,10 @@
 	<Transactions>
     <Transaction>2025/11/21 16:10:00.000.658,=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2PCH1.h</Transaction>
     <Transaction>2025/11/21 16:10:00.000.923,=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
-    <Transaction>2025/11/21 17:24:20.000.290,D:\POO\inf210\archivos estructurados2\ing shirley estruct\Unit3.cpp=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
-    <Transaction>2025/11/21 17:24:20.000.290,D:\POO\inf210\archivos estructurados2\ing shirley estruct\Unit3.dfm=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.dfm</Transaction>
-    <Transaction>2025/11/21 17:24:20.000.290,D:\POO\inf210\archivos estructurados2\ing shirley estruct\Unit3.h=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.h</Transaction>
-    <Transaction>2025/11/21 17:24:21.000.508,D:\POO\inf210\archivos estructurados2\ing shirley estruct\Project2PCH1.h=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2PCH1.h</Transaction>
-    <Transaction>2025/11/21 17:24:22.000.509,D:\POO\inf210\archivos estructurados2\ing shirley estruct\Project2.cbproj=C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.cbproj</Transaction>
+    <Transaction>2025/11/21 17:24:20.000.290,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.cpp=D:\POO\inf210\archivos estructurados2\ing shirley estruct\Unit3.cpp</Transaction>
+    <Transaction>2025/11/21 17:24:20.000.290,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.dfm=D:\POO\inf210\archivos estructurados2\ing shirley estruct\Unit3.dfm</Transaction>
+    <Transaction>2025/11/21 17:24:20.000.290,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit3.h=D:\POO\inf210\archivos estructurados2\ing shirley estruct\Unit3.h</Transaction>
+    <Transaction>2025/11/21 17:24:21.000.508,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2PCH1.h=D:\POO\inf210\archivos estructurados2\ing shirley estruct\Project2PCH1.h</Transaction>
+    <Transaction>2025/11/21 17:24:22.000.509,C:\Users\CRISTIAN\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.cbproj=D:\POO\inf210\archivos estructurados2\ing shirley estruct\Project2.cbproj</Transaction>
   </Transactions>
 </BorlandProject>
