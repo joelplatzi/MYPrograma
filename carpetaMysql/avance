@@ -1,0 +1,17 @@
+create database producto;
+use producto;
+
+create table compra(
+   nrof int not null,
+   id Smallint not null,
+   cantida smallint not null,
+   precioV float not null,
+   codigoP varchar(4) not null
+   primary key (nrof,id),
+   foreign key(nrof) references factura (nro)
+   on update cascade on delete cascade,
+   foreign key (codigoP) references producto(codigo)
+   on update cascade on delete cascade
+)
+-- solapamiento total cuando todos los objetos participan en el apalancamiento
+-- solapamiento parcial basta que uno se quede o no participe 
