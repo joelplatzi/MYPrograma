@@ -15,3 +15,86 @@ create table compra(
 )
 -- solapamiento total cuando todos los objetos participan en el apalancamiento
 -- solapamiento parcial basta que uno se quede o no participe 
+
+
+-- codigo de maestro de oferta
+create database MAESTRO_OFERTA;
+use MAESTRO_OFERTA;
+
+create table docente(
+ codigo int primary key,
+ nombre varchar(50) 
+);
+
+create table materia(
+  sigla char(6) primary key,
+  nombre varchar(50)
+);
+-- drop table grupo;
+-- drop table horario;
+select * from grupo;
+
+create table grupo(
+  id tinyint primary key,
+  nombre char(2) not null,  -- ERROR
+  cupo smallint not null,
+  siglaMateria char(6) not null,
+  codigoDocente int not null,
+  foreign key(codigoDocente) references docente(codigo)
+  on delete cascade on update cascade,
+  foreign key(siglaMateria) references materia(sigla)
+  on delete cascade on update cascade
+);
+
+create table horario(
+  idGrupo tinyint not null,
+  idHorario char(1) not null,
+  dia varchar(9) not null,
+  horaInicial time not null,
+  horaFinal time not null,
+  foreign key(idGrupo) references grupo(id)
+  on delete cascade on update cascade
+);
+
+select * from  horario;
+
+insert into docente values
+ (111,'VEIZAGA GONZALES JOSUE'),
+ (222,'CORTEZ UZEDA JULIO'),
+ (333,'MIRANDA CARRASCO CARLOS'),
+ (444,'GUTIERREZ BRUNO KATIME');
+ 
+ insert into materia values
+ ('INF312','BASES DATOS I'),
+ ('MAT103','ALGEBRA LINEAL'),
+ ('INF110','INTRODUCCION A LA INFORMATICA'),
+ ('MAT101','CALCULO I');
+ 
+ insert into grupo values
+  (10,'SD',50,'MAT103',222),
+  (11,'SE',60,'MAT103',444),
+  (12,'SA',100,'INF312',111),
+  (13,'SC',100,'INF312',111),
+  (14,'Z3',80,'MAT101',333),
+  (15,'SI',80,'INF110',111),
+  (16,'SC',90,'MAT103',222);
+  
+insert into horario values
+ (10,1,'LUNES','11:30','13:00'),
+ (10,2,'MIERCOLES','11:30','13:00'),
+ (10,3,'VIERNES','11:30','13:00'),
+ (11,1,'LUNES','10:00','11:30'),
+ (11,2,'MIERCOLES','10:00','11:30'),
+ (11,3,'VIERNES','10:00','11:30'),
+ (12,1,'LUNES','08:30','10:00'),
+ (12,2,'MIERCOLES','08:30','10:00'),
+ (12,3,'VIERNES','08:30','10:00'),
+ (13,1,'MARTES','07:00','09:15'),
+ (13,2,'JUEVES','07:00','09:15'),
+ (14,1,'MARTES','16:00','18:15'),
+ (14,2,'JUEVES','16:00','18:15'),
+ (15,1,'MARTES','09:15','11:30'),
+ (15,2,'JUEVES','09:15','11:30'),
+  (16,1,'LUNES','07:00','08:30'),
+ (16,2,'MIERCOLES','07:00','08:30'),
+ (16,3,'VIERNES','07:00','08:30');  
