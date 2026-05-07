@@ -1,0 +1,165 @@
+create database MAESTRO_OFERTA2;
+use MAESTRO_OFERTA2;
+
+create table docente(
+ codigo int primary key,
+ nombre varchar(50) 
+);
+
+create table materia(
+  sigla char(6) primary key,
+  nombre varchar(50)
+);
+-- drop table grupo;
+-- drop table horario;
+
+select * from semestre;
+create table semestre(
+   id tinyint primary key,
+   semestre tinyint not null,
+   anio year not null
+);
+
+create table Estudiante(
+  registro int primary key,
+  nombre varchar(50) not null,
+  telefono int not null
+);
+-- DROP TABLE boletaIns;
+create table boletaIns(
+    nro int primary key,
+    fecha date not null,
+    hora time not null,
+    regEst int not null,
+    idSemestre tinyint not null,
+    foreign key(regEst) references Estudiante(registro)
+    on delete cascade on update cascade,
+    foreign key(idSemestre) references semestre(id)
+    on delete cascade on update cascade
+);
+
+create table inscribe(
+  nroBoleta int not null,
+  idGrupo tinyint not null,
+  foreign key(nroBoleta) references boletaIns(nro)
+  on delete cascade on update cascade,
+  foreign key(idGrupo) references grupo(id)
+  on delete cascade on update cascade
+);
+
+select * from semestre;
+
+create table grupo(
+  id tinyint primary key,
+  nombre char(2) not null,  -- ERROR no pude ser primary key
+  cupo smallint not null,
+  siglaMateria char(6) not null,
+  codigoDocente int not null,
+  foreign key(codigoDocente) references docente(codigo)
+  on delete cascade on update cascade,
+  foreign key(siglaMateria) references materia(sigla)
+  on delete cascade on update cascade
+);
+select * from grupo;
+--   
+alter table grupo
+add idSemestre tinyint not null;
+
+alter table grupo
+drop column idSemestre;
+
+alter table grupo
+add constraint fk_idSemestre
+foreign key(idSemestre)
+references semestre(id)
+on delete cascade
+on update cascade;
+
+ALTER TABLE grupo
+ADD CONSTRAINT fk_idSemestre
+FOREIGN KEY(idSemestre)
+REFERENCES semestre(id)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+--    
+
+create table horario(
+  idGrupo tinyint not null,
+  idHorario char(1) not null ,
+  dia varchar(9) not null,
+  horaInicial time not null,
+  horaFinal time not null,
+  foreign key(idGrupo) references grupo(id)
+  on delete cascade on update cascade
+);
+-- drop table horario;
+-- drop table grupo;
+select * from  grupo;
+
+insert into docente values
+ (111,'VEIZAGA GONZALES JOSUE'),
+ (222,'CORTEZ UZEDA JULIO'),
+ (333,'MIRANDA CARRASCO CARLOS'),
+ (444,'GUTIERREZ BRUNO KATIME');
+ 
+ insert into materia values
+ ('INF312','BASES DATOS I'),
+ ('MAT103','ALGEBRA LINEAL'),
+ ('INF110','INTRODUCCION A LA INFORMATICA'),
+ ('MAT101','CALCULO I');
+ 
+ insert into grupo values
+  (10,'SD',50,'MAT103',222),
+  (11,'SE',60,'MAT103',444),
+  (12,'SA',100,'INF312',111),
+  (13,'SC',100,'INF312',111),
+  (14,'Z3',80,'MAT101',333),
+  (15,'SI',80,'INF110',111),
+  (16,'SC',90,'MAT103',222);
+  
+insert into horario values
+ (10,1,'LUNES','11:30','13:00'),
+ (10,2,'MIERCOLES','11:30','13:00'),
+ (10,3,'VIERNES','11:30','13:00'),
+ (11,1,'LUNES','10:00','11:30'),
+ (11,2,'MIERCOLES','10:00','11:30'),
+ (11,3,'VIERNES','10:00','11:30'),
+ (12,1,'LUNES','08:30','10:00'),
+ (12,2,'MIERCOLES','08:30','10:00'),
+ (12,3,'VIERNES','08:30','10:00'),
+ (13,1,'MARTES','07:00','09:15'),
+ (13,2,'JUEVES','07:00','09:15'),
+ (14,1,'MARTES','16:00','18:15'),
+ (14,2,'JUEVES','16:00','18:15'),
+ (15,1,'MARTES','09:15','11:30'),
+ (15,2,'JUEVES','09:15','11:30'),
+  (16,1,'LUNES','07:00','08:30'),
+ (16,2,'MIERCOLES','07:00','08:30'),
+ (16,3,'VIERNES','07:00','08:30');  
+ 
+ insert into estudiante values
+   (10101,'JOAQUIN CHUMACERO',7102030),
+   (10201,'SATURNINO MAMANI',6783838),
+   (13102,'PATRICIA AGUILERA',6848414);
+   
+insert into semestre values
+(1,1,2025),
+(2,2,2025),
+(3,1,2026);
+select * from semestre;
+SELECT id, idSemestre FROM grupo;
+insert into boletaIns values
+(100,'2026-10-02','10:00',10101,3),
+(120,'2026-10-03','11:00',10101,3),
+(121,'2026-10-03','12:00',10201,3),
+(122,'2026-10-03','12:00',13102,3);  
+
+insert into inscribe values
+(100,13),
+(100,10),
+(120,15),
+(121,13),
+(122,13),
+(122,15),
+(122,14);
