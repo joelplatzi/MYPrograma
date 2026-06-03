@@ -1,1 +1,149 @@
 hola mundo
+
+
+create database mecanico;
+use mecanico;
+-- Creación de la tabla TIPO
+CREATE TABLE TIPO (
+    ID INT PRIMARY KEY,
+    NOMBRE VARCHAR(50) NOT NULL
+);
+
+-- Creación de la tabla PERSONA
+CREATE TABLE PERSONA (
+    CI INT PRIMARY KEY,
+    NOMBRE VARCHAR(100) NOT NULL,
+    TELEFONO VARCHAR(20),
+    DIRECCION VARCHAR(150),
+    CORREO VARCHAR(100)
+);
+
+-- Creación de la tabla de relación PERTENECE_TIPO (Persona pertenece a Tipo)
+CREATE TABLE PERTENECE_TIPO (
+    CI INT,
+    IDTIPO INT,
+    PRIMARY KEY (CI, IDTIPO),
+    FOREIGN KEY (CI) REFERENCES PERSONA(CI) ON DELETE CASCADE,
+    FOREIGN KEY (IDTIPO) REFERENCES TIPO(ID) ON DELETE CASCADE
+);
+
+-- Creación de la tabla VEHICULO
+CREATE TABLE VEHICULO (
+    PLACA VARCHAR(20) PRIMARY KEY,
+    MARCA VARCHAR(50) NOT NULL,
+    MODELO VARCHAR(50) NOT NULL,
+    AÑO INT
+);
+
+-- Creación de la tabla NOTARECEPCION
+CREATE TABLE NOTARECEPCION (
+    NRO INT PRIMARY KEY,
+    FECHA DATE NOT NULL,
+    HORA TIME NOT NULL,
+    MOTIVO VARCHAR(250),
+    CICLIENTE INT,
+    CIRECEP INT,
+    PLACAVEHICULO VARCHAR(20),
+    FOREIGN KEY (CICLIENTE) REFERENCES PERSONA(CI),
+    FOREIGN KEY (CIRECEP) REFERENCES PERSONA(CI),
+    FOREIGN KEY (PLACAVEHICULO) REFERENCES VEHICULO(PLACA)
+);
+
+-- Creación de la tabla ACCESORIO
+CREATE TABLE ACCESORIO (
+    ID INT PRIMARY KEY,
+    NOMBRE VARCHAR(100) NOT NULL
+);
+
+-- Creación de la tabla de relación PERTENECE (Accesorios que vienen en la Nota de Recepción)
+CREATE TABLE PERTENECE (
+    NRO INT,
+    IDACCE INT,
+    ESTADO VARCHAR(250),
+    PRIMARY KEY (NRO, IDACCE),
+    FOREIGN KEY (NRO) REFERENCES NOTARECEPCION(NRO) ON DELETE CASCADE,
+    FOREIGN KEY (IDACCE) REFERENCES ACCESORIO(ID) ON DELETE CASCADE
+);
+
+-- 1. Insertar en TIPO
+INSERT INTO TIPO (ID, NOMBRE) VALUES 
+(1, 'CLIENTE'),
+(2, 'RECEPCIONITAS');
+
+-- 2. Insertar en PERSONA
+INSERT INTO PERSONA (CI, NOMBRE, TELEFONO, DIRECCION, CORREO) VALUES 
+(111, 'Joaquin Chumacero', '7102030', 'urb. Los penocos', 'jchumacero@gmai.com'),
+(222, 'Saturnino Mamani', '7383833', 'Calle Junin 200', 'smamani@gmail.com'),
+(333, 'Fabiola Mendez', '7217272', 'calle lbertad 300', 'fmendez@gmail.com'),
+(444, 'Carlos Camacho', '7318282', 'Ub. Totaises', 'ccamacho@gmail.com'),
+(555, 'Patricia Aguilera', '7292922', 'Calle Junin 400', 'paguilera@gmail.com'),
+(777, 'Angel Carrazco', '72192929', 'Urb. Las lomas', 'acarrazco@gmail.com');
+
+-- 3. Insertar en PERTENECE_TIPO
+INSERT INTO PERTENECE_TIPO (CI, IDTIPO) VALUES 
+(111, 1),
+(222, 2),
+(333, 1),
+(444, 1),
+(444, 2),
+(555, 1),
+(777, 1);
+
+-- 	select * from NOTARECEPCION;
+-- 4. Insertar en VEHICULO
+INSERT INTO VEHICULO (PLACA, MARCA, MODELO, AÑO) VALUES 
+('WER100', 'TOYOTA', 'STARLET', 2000),
+('UKA200', 'TOYOTA', 'IPSUM', 2015),
+('CUV300', 'HIUNDAY', 'I10', 2020),
+('HOL100', 'BMW', 'X6', 2025),
+('KDW134', 'TOYOTA', 'SPACIO', 2015);
+
+-- 5. Insertar en NOTARECEPCION
+INSERT INTO NOTARECEPCION (NRO, FECHA, HORA, MOTIVO, CICLIENTE, CIRECEP, PLACAVEHICULO) VALUES 
+(100, '2026-01-10', '10:00:00', 'ENCENDIDO', 111, 222, 'WER100'),
+(101, '2026-02-10', '11:00:00', 'DIRECCION', 111, 222, 'UKA200'),
+(102, '2026-02-15', '12:00:00', 'Motor Calienta', 333, 444, 'CUV300'),
+(103, '2026-05-15', '16:00:00', 'Suspension delantera', 555, 222, 'HOL100'),
+(104, '2026-05-15', '17:00:00', 'DIRECCION', 777, 444, 'KDW134');
+
+-- 6. Insertar en ACCESORIO
+INSERT INTO ACCESORIO (ID, NOMBRE) VALUES 
+(1, 'RADIO'),
+(2, 'LLANTA'),
+(3, 'GATO'),
+(4, 'EXTINTOR');
+
+-- 7. Insertar en PERTENECE (Accesorios por Nota de Recepción)
+INSERT INTO PERTENECE (NRO, IDACCE, ESTADO) VALUES 
+(100, 1, 'FM BUEN ESTADO'),
+(100, 2, 'LLANTA DE 14"'),
+(101, 3, 'HIDRAULICO MEDIO USO'),
+(101, 1, 'CON PANTALLA BUEN ESTADO'),
+(101, 2, '15" PINCHADA'),
+(102, 3, 'GATO HIDRAULICO 1/2 TON'),
+(103, 2, 'LLANTA DE 14"'),
+(103, 4, 'EN BUEN ESTADO'),
+(104, 4, 'BUEN ESTADO');
+
+/*mostrar */
+
+select 
+from persona p,notarecepcion r,vehiculo v,accesorio a,pertenece p
+where p.ci=r.cicliente and r.placavehiculo=v.placa and 
+
+/* mostrar cuantas recepciones ha realizado cada recepcionista*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
