@@ -1,3 +1,127 @@
+create database examen2;
+use examen2;
+
+create table cliente(
+  ci int primary key,
+  nombre varchar(30) not null,
+  telefono int not null
+);
+
+create table factura(
+  nro int primary key,
+  fecha date not null,
+  monto int not null,
+  cicliente int not null,
+  foreign key(cicliente) references cliente(ci)
+  on update cascade on delete cascade
+);
+
+create table categoria(
+  id int primary key,
+  descripcion varchar(50) not null,
+  idpadre int null,
+  foreign key (idpadre) references categoria(id)
+  on update cascade on delete cascade
+);
+
+create table producto(
+  codigo varchar(5) primary key,
+  nombre varchar(50) not null,
+  preciov int not null,
+  idcategoria int not null,
+  foreign key (idcategoria) references categoria(id)
+  on update cascade on delete cascade
+);
+
+create table detallefactura(
+  nrof int not null,
+  id int not null,
+  primary key(nrof,id),
+  foreign key (nrof) references factura(nro)
+  on update cascade on delete cascade,
+  cantidad int not null,
+  precio int not null,
+  codigop varchar(5) not null,
+  foreign key (codigop) references producto(codigo)
+  on update cascade on delete cascade
+);
+
+insert into cliente values
+(111,'Joaquin Chumacero',7102030);
+
+insert into cliente values
+(222,'Saturnino Mamani',3562040),
+(333,'Fabiola Mendez',7202030);
+
+
+
+insert into factura values
+(100,'2022-01-10',300,111);
+insert into factura values
+(101,'2022-01-10',150,222),
+(102,'2022-01-15',180,333),
+(103,'2022-01-20',250,111);
+
+insert into categoria values
+(1,'BEBIDAS',null);
+
+insert into categoria values
+(2,'BEBIDAS ALCOHOLICAS',1),
+(3,'VINOS',2),
+(4,'CERVEZA',2),
+(5,'BEBIDAS NO ALCOHOLICAS',1),
+(6,'GASEOSAS',5),
+(7,'JUGOS',5),
+(8,'ENERGIZANTE',5);
+
+insert into producto values
+('P001','COCA COLA DE 2 LTS',10,6);
+
+insert into producto values
+('P002','COCA COLA DE 3 LTS',15,6),
+('P003','VINO KOLBERT 450 ML',30,3),
+('P004','CERVEZA PACEÑA LATA',12,4),
+('P005','JUGO DEL VALLE FRESH 2 LTS',15,7),
+('P006','ACUARIO PERA 3 LTS',20,7),
+('P007','POWER 450 ML',10,8);
+
+insert into detallefactura values
+(100,1,10,15,'P002');
+
+insert into detallefactura values
+(100,2,11,10,'P007'),
+(100,3,2,20,'P006'),
+(101,1,15,10,'P007'),
+(102,1,4,30,'P003'),
+(102,2,4,15,'P002'),
+(103,1,12,20,'P006'),
+(103,2,1,10,'P004');
+
+/*CONSULTA: MOSTRAR EL MONTO TOTAL INGRESADO POR LA VENTA DE PRODUCTOS DE TODAS LAS SUBCATEGORIAS DE LA CATEGORIA BEBIDAS NO ALCOHOLICAS.*/
+select sum(df.cantida*df.precio)
+from categoria c,producto p,detallefactura df
+where p.codigo=df.codigop ;
+
+select id
+from categoria
+where descripcion='GASEOSAS';
+
+select id
+from categoria
+where descripcion=(select id from categoria where descripcion='BEBIDAS NO ALCOHOLICAS');
+
+/*CONSULTA: MOSTRAR LOS PRODUCTOS DE LA CATEGORIA GASEOSA QUE SE HAN VENDIDO MAS DE UNA VEZ*/
+select id
+from categoria
+where descripcion='GASEOSAS';
+
+select p.codigo,p.nombre
+from categoria c,producto p,detallefactura df
+where p.codigo=df.codigop and descripcion in (select categoria.*
+from categoria
+where descripcion='GASEOSAS');
+
+
 hola mundo
 
 
