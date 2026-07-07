@@ -1,0 +1,387 @@
+package create;
+
+import java.util.ArrayList;
+
+public class ejercicio1 {
+
+	private ArrayList<Arbol11> L1;
+//constructor
+    public ejercicio1(int max) {
+        L1 = new ArrayList<>(max);
+        for (int i = 0; i < max; i++) {
+            L1.add(new Arbol11());
+        }
+    }
+
+    public void insertar(int x) {
+        int ultimoDigito = Math.abs(x) % 10; 
+        L1.get(ultimoDigito).insertar(x);
+    }
+
+    public void mostrar() {
+        for (int i = 0; i < L1.size(); i++) {
+          //  System.out.print("Terminados en "  + i + ": ");
+            L1.get(i).inOrden(); 
+            System.out.println(); 
+        }
+    }	
+    
+    public void mostrarDesc() {
+
+        for(int i=0;i<L1.size();i++) {
+
+            System.out.print("Terminados en "+i+": ");
+
+            L1.get(i).inOrdenDesc();
+
+            System.out.println();
+        }
+
+    }
+    
+    //ejercicio1
+    public void mostrarCantidadPorArbol() {
+    	for(int i=0;i<L1.size();i++) {
+    		System.out.println("Terminos "+i+" :"+ L1.get(i).cantidadNodos()+" Elementos");
+    	}
+    }
+    
+    //2.Mostrar el ABB que tiene mas elementos
+    public void mostrarMayorEle() {
+    	int pos=0;
+    	int mayor=0;
+    	for(int i=0;i<L1.size();i++) {
+    		int cant=L1.get(i).cantidadNodos();
+    		if(cant>mayor) {
+    			mayor=cant;
+    			pos=i;
+    		}
+    			
+    	}
+    	System.out.println("El arbol terminado en "+ pos+" tiene "+mayor+ " elemento");
+    }
+    //3.contar el total de elementos de toda la lista
+    public int mostrarTotalElem() {
+    	int cant=0;
+    	for(int i=0;i<L1.size();i++) {
+    		cant+=L1.get(i).cantidadNodos();
+    	}
+    	//System.out.println("Cantidad total :"+cant);
+    	return cant;
+    }
+    //4.mostrar solamente los numeros pares
+        public void mostrarElemPares() {
+        	for(int i=0; i<L1.size();i++) {
+        		L1.get(i).numerosPares();
+        	}
+        	System.out.println();
+        }
+    
+    //5.mostrar en que ABB esta un numero
+    public void buscar(int x) {
+    	int pos=Math.abs(x)%10;
+    	if(L1.get(pos).existeABB(x))
+    		System.out.println(x+" Esta en el arbol "+ pos);
+    	else
+    		System.out.println(x+ " no existe");
+    }
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		  ejercicio1 lista = new ejercicio1(10);
+
+	        lista.insertar(25);
+	        lista.insertar(18);
+	        lista.insertar(5);
+	        lista.insertar(127);
+	        lista.insertar(17);
+	        lista.insertar(45);
+	        lista.insertar(3528);
+	        lista.insertar(185);
+	        lista.insertar(1417);
+	        lista.insertar(765);
+	        lista.insertar(427);
+
+	        System.out.println("Menor a mayor");
+	        lista.mostrar();		
+
+	        System.out.println("Mayor a menor");
+	        lista.mostrarDesc();
+	        System.out.println("\ncontar cuantos elementos hay en cada ABB");
+	        lista.mostrarCantidadPorArbol();
+	        System.out.println("\nMostrar el ABB que tiene mas elementos");
+	        lista.mostrarMayorEle();
+	        System.out.println("\nMostrar el total de elementos");
+	        System.out.println("total ="+lista.mostrarTotalElem());
+	        lista.mostrarElemPares();
+	        lista.buscar(185);
+	        lista.buscar(100);
+	        
+	        
+	        
+	       
+	}
+
+}
+//-----------------
+package create;
+
+public class Arbol11 {
+	 public Nodo11 raiz;
+
+	    public Arbol11() {
+	        this.raiz = null;
+	    }
+
+	    public void insertar(int x) {
+	        raiz = insertar(raiz, x);
+	    }
+
+	    private Nodo11 insertar(Nodo11 p, int x) {
+	        if (p == null) return new Nodo11(x);
+	        
+	        if (x < p.elem) {
+	            p.izq = insertar(p.izq, x);
+	        } else if (x > p.elem) { 
+	            p.der = insertar(p.der, x);
+	        }
+	        return p;
+	    }
+
+	    public void inOrden() {
+	        inOrden(raiz);
+	    }
+
+	    private void inOrden(Nodo11 p) {
+	        if (p == null) return;
+	        inOrden(p.izq);
+	        System.out.print(p.elem + " ");
+	        inOrden(p.der);
+	    }
+	    
+	    public void inOrdenDesc() {
+	        inOrdenDesc(raiz);
+	    }
+
+	    private void inOrdenDesc(Nodo11 p) {
+	        if (p == null)
+	            return;
+
+	        inOrdenDesc(p.der);
+	        System.out.print(p.elem + " ");
+	        inOrdenDesc(p.izq);
+	    }
+	    //
+	    public void inOrdenDesc2() {
+	        inOrdenDesc2(raiz);
+	    }
+ // usamos el mismo nodo para el ejrcicio 2 ya que tiene similar extructura
+	    private void inOrdenDesc2(Nodo11 p) {
+
+	        if(p==null)
+	            return;
+
+	        inOrdenDesc2(p.der);
+
+	        System.out.print(p.elem + " ");
+
+	        inOrdenDesc2(p.izq);
+	    }
+	    
+	    //ejercicios al menos 5
+	    //1.Contar cuántos elementos hay en cada ABB.
+	    public int cantidadNodos() {
+	    	return cantidadNodos(raiz);
+	    }
+	    private int cantidadNodos(Nodo11 p) {
+	    	if(p==null)
+	    		return 0;
+	       return 1+cantidadNodos(p.izq)+cantidadNodos(p.der);
+	        
+	    }
+	    
+	    //4.mostrar solamente los numeros pares
+	    public void numerosPares() {
+	    	 numerosPares(raiz);
+	    }
+	    private void numerosPares(Nodo11 p) {
+	    	if(p==null)
+	    		return ;
+	    	numerosPares(p.izq);
+	    	if(p.elem%2==0)
+	    		System.out.print(p.elem + " ");
+	    	numerosPares(p.der);
+	    }
+	    
+	    
+	  //5.buscar en que ABB esta un numero
+	    public boolean existeABB(int x) {
+	    	return existeABB(raiz,x);
+	    }
+	    
+	    private boolean existeABB(Nodo11 p,int x) {
+	    	if(p==null)
+	    		return false;
+	    	if(p.elem==x)
+	    		return true;
+	    	if(x<p.elem)
+	    		return existeABB(p.izq,x);
+	    	return existeABB(p.der,x);
+	    	
+	    	
+	    }
+
+}
+//frecuencia
+package prueba;
+
+public class ArbolFrec {
+  
+	public NodoFrec raiz;
+	
+	private int mayorFrec;
+	private String palabraFrec;
+	
+	public void insertar(String x) {
+		raiz=insertar(raiz,x);
+	}
+	private NodoFrec insertar(NodoFrec p,String x) {
+		if(p==null)
+			return new NodoFrec(x);
+		if(x.equalsIgnoreCase(p.elem))
+			p.frec++;
+		else if(x.compareToIgnoreCase(p.elem)>0)
+			p.izq=insertar(p.izq,x);
+		else
+			p.der=insertar(p.der,x);
+		return p;
+	}
+	
+	public void mostrarMenMay() {
+		mostrarMenMay(raiz);
+	}
+	private void mostrarMenMay(NodoFrec p) {
+		if(p==null)
+			return;
+		mostrarMenMay(p.izq);
+		System.out.println("palabra "+p.elem+" frecuencia :"+p.frec);
+		mostrarMenMay(p.der);
+	}
+	
+	//1palabra con mayor frecuencia ->mas frecunte
+	
+	public void palabraMasFrecuente() {
+		palabraFrec="";
+		mayorFrec=0;
+		palabraMasFrecuente(raiz);
+		System.out.println("palabra mas frecuencia :"+palabraFrec+" frecuencia :"+mayorFrec);
+	}
+	private void palabraMasFrecuente(NodoFrec p) {
+		if(p==null)
+			return ;
+		palabraMasFrecuente(p.izq);
+		if(p.frec>mayorFrec) {
+			mayorFrec=p.frec;
+			palabraFrec=p.elem;
+		}
+		palabraMasFrecuente(p.der);
+			
+	}
+	//Mostrar todas las palabras cuya frecuencia sea mayor que un número n
+	public void palabraFrecN(int n) {
+		palabraFrecN(raiz,n);
+	}
+	private void palabraFrecN(NodoFrec p,int n) {
+		if(p==null)
+			return;
+		palabraFrecN(p.izq,n);
+		if(p.frec>n)
+			System.out.println(p.elem);
+		palabraFrecN(p.der,n);
+		
+	}
+	
+	//Contar cuántas palabras diferentes existen.
+    public int palabrasDiferentes() {
+    	return palabrasDiferentes(raiz);
+    }
+    private int palabrasDiferentes(NodoFrec p) {
+    	if(p==null)
+    		return 0;
+    	return palabrasDiferentes(p.izq)+palabrasDiferentes(p.der)+1;
+    }
+  
+    //Mostrar las palabras que aparecen una sola vez.
+    
+    public void palabraUnaVez() {
+    	palabraUnaVez(raiz);
+    }
+    private void palabraUnaVez(NodoFrec p) {
+    	if(p==null)
+    		return;
+    	palabraUnaVez(p.izq);
+    	if(p.frec==1)
+    		System.out.println("palabra "+p.elem+" una vez con "+p.frec);
+    	palabraUnaVez(p.der);
+    }
+  
+    //Mostrar la frecuencia total de todas las palabras.
+    public int frecuenciaTotal() {
+    	return frecuenciaTotal(raiz);
+    }
+    private int frecuenciaTotal(NodoFrec p) {
+    	if(p==null)
+    		return 0;
+    	return frecuenciaTotal(p.izq)+frecuenciaTotal(p.der)+p.frec;
+    }
+  
+  
+  
+    
+  
+  
+  
+  
+  
+	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ArbolFrec arbol=new ArbolFrec();
+		
+		String[] palabras= {
+				"gato","perro","gato","arbol"
+		};
+		for(String palabra:palabras)
+			arbol.insertar(palabra);
+		
+		arbol.mostrarMenMay();
+		arbol.palabraMasFrecuente();
+		arbol.palabraFrecN( 0);
+		System.out.println("cantidad palabras diferentes :"+arbol.palabrasDiferentes());
+		arbol.palabraUnaVez();
+		System.out.println("cantidad total de frecuencia es  :"+arbol.frecuenciaTotal());
+		/*arbol.mostrarMayorFrec();
+		arbol.mostrarFrecMayorN(1);
+		System.out.println("cantidad_palabras_diferentes :"+arbol.palabrasDiferentes());
+		arbol.palabraUnaVez();
+		System.out.println("frecuencia total :"+arbol.frecuenciaTotal());*/
+  
+	}
+
+}
+//-----------------------------------
+public class NodoFrec {
+	  public NodoFrec izq;
+	  public NodoFrec der;
+	  public String elem;
+	  public int frec;
+	  public NodoFrec(String elem) {
+		  this.elem=elem;
+		  this.izq=null;
+		  this.der=null;
+		  this.frec=1;
+		  
+	  }
+}
+
