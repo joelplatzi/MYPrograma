@@ -384,4 +384,76 @@ public class NodoFrec {
 		  
 	  }
 }
+//---------------
+
+public static class arboles{
+        public arbol[] arboles=new arbol[10];
+        
+        public void gestionar(){
+            for (int i = 0; i < 10; i++) {
+                arboles[i]=new arbol();
+            }
+        }
+        
+        public void insertarporDig(int x){
+            int i=Math.abs(x%10);
+            arboles[i].insertar(x);
+        }
+        
+        public void menMay(){
+            for (int i = 0; i < 10; i++) {
+                ArrayList<Integer>lista=new ArrayList<>();
+                arboles[i].inorder(arboles[i].raiz, lista);
+                System.out.println("arbol "+i+ "menor mayor "+lista);
+            }
+        }
+        
+        public void mayMnen(){
+            for (int i = 0; i < 10; i++) {
+                ArrayList<Integer>lista=new ArrayList<>();
+                arboles[i].desc(arboles[i].raiz, lista);
+                System.out.println("arbol "+i+"menor mayor "+lista);
+            }
+        }
+        
+        public void vacios(){
+            for (int i = 0; i < 10; i++) {
+                if (arboles[i].raiz==null) {
+                    System.out.println("Arbol[" + i + "] esta vacio");
+                   
+                }
+            }
+        }
+        
+        public void novacios(){
+            for (int i = 0; i < 10; i++) {
+                if (arboles[i].raiz!=null) {
+                    System.out.println("Arbol[" + i + "] no esta vacio");
+                   
+                }
+            }
+        }
+        //-------
+arboles ar=new arboles();
+        ar.gestionar();
+        ar.insertarporDig(44);
+        ar.insertarporDig(43);
+        ar.insertarporDig(34);
+        ar.insertarporDig(11);
+        ar.insertarporDig(22);
+        
+        System.out.println("menor a mayor : ");
+        ar.menMay();
+        
+        System.out.println("mayor menor : ");
+        ar.mayMnen();
+        
+           // Ejercicio 14 (4 del Bloque 3)
+      System.out.println("Arboles vacios:");
+         ar.vacios();
+  // Ejercicio 15 (5 del Bloque 3)
+       System.out.println("\nArboles no vacios:");
+        ar.novacios();
+    }
+
 
