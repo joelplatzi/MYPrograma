@@ -456,4 +456,76 @@ arboles ar=new arboles();
         ar.novacios();
     }
 
+//---
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.arboles;
+
+/**
+ *
+ * @author Estudiante
+ */
+import java.util.ArrayList;
+public class arbol {
+  
+
+   public  nodo raiz=null;
+
+    public void insertar(int x){
+            raiz=insertar(raiz,x);
+        }
+        private nodo insertar(nodo p, int x){
+            if(p==null) return new nodo (x);
+            if(x<p.elem) p.izq=insertar(p.izq,x);
+            else p.der=insertar(p.der,x);
+            return p;
+        }
+        
+        public void inorder(nodo p,ArrayList<Integer>L){
+            if(p==null) return;
+            inorder(p.izq,L);
+            L.add(p.elem);
+            inorder(p.der,L);
+        }
+        
+         public void desc(nodo p,ArrayList<Integer>L){
+            if(p==null) return;
+            desc(p.der,L);
+            L.add(p.elem);
+            desc(p.izq,L);
+        }
+        
+
+
+
+    
+}
+//----
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.arboles;
+
+/**
+ *
+ * @author Estudiante
+ */
+public class nodo {
+  
+        public int elem;
+        public int frec;
+        public nodo izq,der;
+        
+        public nodo (int x){
+            this.elem=x;
+            this.frec=1;
+            izq=der=null;
+        }
+    
+    
+}
+
 
