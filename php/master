@@ -1,0 +1,313 @@
+
+    public static void main(String[] args) {
+       ciclo c=new ciclo();
+       c.tabla(3);
+       c.cuadrado(3);
+       c.triangulo(3);
+       c.tablatriple(2);
+        System.out.println("------");
+       c.tablados(2);
+       
+       c.tablar(3);
+       c.cuadrador(3);
+       c.triangulor(3);
+       c.tablatripler(2);
+        System.out.println("-----");
+       c.tabladosr(2);
+       
+       
+       lista l=new lista(4);
+       
+       l.insertarult(1);
+       l.insertarult(2);
+       l.insertarult(3);
+       l.insertarult(4);
+       
+       lista l2=new lista(4);
+       
+       l2.insertarult(1);
+       l2.insertarult(2);
+       l2.insertarult(3);
+       l2.insertarult(4);
+       
+       lista l3=new lista(4);
+       
+       l3.insertarult(4);
+       l3.insertarult(3);
+       l3.insertarult(2);
+       l3.insertarult(1);
+       
+        System.out.println("frec "+l.frecuencia(5));
+        System.out.println("se encuentra "+l.seencuentra(9));
+        System.out.println("suma "+l.suma());
+        System.out.println("dos listas "+l.doslistas(l2));
+        System.out.println("tres lsitas "+l.treslistas(l2, l3));
+        
+        System.out.println("frec "+l.frecuenciar(5));
+        System.out.println("se encuentra "+l.seencuentrar(9));
+        System.out.println("suma "+l.sumar());
+        System.out.println("dos listas "+l.doslistasr(l2));
+        System.out.println("tres lsitas "+l.treslistasr(l2, l3));
+       
+    }
+    
+    public static class ciclo{
+        public void tabla(int n){
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    System.out.println(i+" x "+j+" = "+(i*j));
+                }
+            }
+        }
+        
+        public void cuadrado(int n){
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    System.out.print("*");
+                }
+                System.out.println();
+            }
+        }
+        
+        public void triangulo(int n){
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= i; j++) {
+                    System.out.print("*");
+                }
+                System.out.println();
+            }
+        }
+        
+         public void tablatriple(int n){
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    for (int k = 1; k <= n; k++) {
+                        System.out.println(i+" x "+j+" x "+k+" = "+(i*j*k));
+                    }
+                }
+            }
+        }
+         
+          public void tablados(int n){
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    for (int k = 1; k <= n; k++) {
+                        if(i==j && i!=k || i==k && i!=j || j==k && j!=i){
+                            System.out.println(i+" x "+j+" x "+k+" = "+(i*j*k));
+                        }
+                    }
+                }
+            }
+        }
+
+          public void tablar(int n){
+              tablai(n,1);
+          }
+          private void tablai(int n ,int i){
+              if(i>n) return;
+              tablaj(n,i,1);
+              System.out.println();
+              tablai(n,i+1);
+          }
+          private void tablaj(int n, int i, int j){
+              if(j>n) return ;
+              System.out.println(i+" x "+j+" = "+(i*j));
+              tablaj(n,i,j+1);
+          }
+          
+          public void cuadrador(int n){
+              cuadrador(n,1,1);
+              
+          }
+          private void cuadrador(int n, int i, int j){
+              if(i>n) return;
+              System.out.print("*");
+              if(j<n) cuadrador(n,i,j+1);
+              else {
+                  System.out.println();
+                  cuadrador(n,i+1,1);
+              }
+          }
+          
+          public void triangulor(int n){
+            triangulor(n,1,1);
+              
+          }
+          private void triangulor(int n, int i, int j){
+              if(i>n) return;
+              System.out.print("*");
+              if(j<i) triangulor(n,i,j+1);
+              else {
+                  System.out.println();
+                  triangulor(n,i+1,1);
+              }
+          }
+          
+          public void tablatripler(int n){
+              tablatripler(n,1,1,1);
+          } 
+          private void tablatripler(int n, int i, int j, int k){
+              if(i>n) return;
+              System.out.println(i+" x "+j+" x "+k+" = "+(i*j*k));
+              if(k<n) tablatripler(n,i,j,k+1);
+              else if(j<n) tablatripler(n,i,j+1,1);
+              else tablatripler(n,i+1,1,1);
+          }
+          
+           public void tabladosr(int n){
+              tabladosr(n,1,1,1);
+          } 
+          private void tabladosr(int n, int i, int j, int k){
+              if(i>n) return;
+              if(i==j && i!=k || i==k && i!=j || j==k && j!=i){
+                            System.out.println(i+" x "+j+" x "+k+" = "+(i*j*k));
+              }
+              if(k<n) tabladosr(n,i,j,k+1);
+              else if(j<n) tabladosr(n,i,j+1,1);
+              else tabladosr(n,i+1,1,1);
+          }
+          
+
+
+    }
+    
+    public static class lista{
+        public int n;
+        public int max;
+        public int[]v;
+        
+        public lista(int x){
+            this.n=0;
+            this.max=x;
+            this.v=new int[max];
+        }
+        
+        public void insertarult(int x){
+            if (n<max) {
+                v[n]=x;
+                n++;
+            }
+        }
+        
+        public String tostring(){
+            String s="[ ";
+            int i=0;
+            while(i<n){
+                s=s+v[i];
+                if(i<n-1){
+                    s=s+",";
+                }
+                i++;
+            }
+            return s+" ] ";
+        }
+        
+        public int frecuencia(int x){
+            int f=0;
+            for (int i = 0; i < n; i++) {
+                if(v[i]==x){
+                    f++;
+                }
+            }
+            return f;
+        }
+        
+        public int suma(){
+            int s=0;
+            for (int i = 0; i < n; i++) {
+                s=s+v[i];
+            }
+            return s;
+        }
+        
+        public boolean seencuentra(int x){
+            int i=0;
+            while(i<n){
+                if(v[i]==x) return true;
+                
+                i++;
+            }
+            return false;
+        }
+        
+        public boolean doslistas(lista L2){
+            int i=0;
+            while(i<n){
+                if(v[i]!=L2.v[i]){
+                    return false;
+                }
+                i++;
+            }
+            
+           return true;
+        }
+        
+        public boolean treslistas(lista L2,lista L3){
+            int i=0;
+            while(i<n){
+                if(v[i]!=L2.v[i] ||v[i]!=L3.v[i]){
+                    return false;
+                }
+                i++;
+            }
+            
+           return true;
+        }
+        
+        
+        public int frecuenciar(int x){
+            return frecuenciar(x,0);
+        }
+        private int frecuenciar(int x, int i){
+            if(i>=n) return 0;
+            if(v[i]==x) return 1+frecuenciar(x,i+1);
+            return frecuenciar(x,i+1);
+        }
+        
+        public boolean seencuentrar(int x){
+            return seencuentrar(x,0);
+        }
+        private boolean seencuentrar(int x, int i){
+            if(i>=n) return false;
+            if(v[i]==x) return true;
+            return seencuentrar(x,i+1);
+        }
+        
+        public int sumar(){
+            return sumar(0);
+        }
+        private int sumar(int i){
+            if(i>=n) return 0;
+            return v[i]+sumar(i+1);
+        }
+        
+        public boolean doslistasr(lista L2){
+            return doslistasr(L2,0);
+        }
+        private boolean doslistasr(lista L2, int i){
+            if(i>=n) return true;
+            if(v[i]!=L2.v[i]) return false;
+            return doslistasr(L2,i+1);
+        }
+        
+        public boolean treslistasr(lista L2,lista L3){
+            return treslistasr(L2,L3,0);
+        }
+        private boolean treslistasr(lista L2,lista L3, int i){
+            if(i>=n) return true;
+            if(v[i]!=L2.v[i] || v[i]!=L3.v[i]) return false;
+            return treslistasr(L2,L3,i+1);
+        }
+        
+        
+        
+     
+        
+        
+        
+    }
+        
+ 
+  
+
+}
